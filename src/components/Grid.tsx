@@ -1,6 +1,6 @@
 import { useGameStore } from "../game/gameStore";
 
-export default function Grid({ cellSize = 12 }) {
+export default function Grid({ cellSize = 8 }) {
   const grid = useGameStore((s) => s.grid);
 
   return (
@@ -8,11 +8,11 @@ export default function Grid({ cellSize = 12 }) {
       className="grid border"
       style={{ gridTemplateColumns: `repeat(${grid.length}, ${cellSize}px)` }}
     >
-      {Array.from({ length: grid.length }, (_, x) =>
-        Array.from({ length: grid.length }, (_, y) => (
+      {grid.map((row, x) =>
+        row.map((cell, y) => (
           <div
             key={`${x}-${y}`}
-            className="bg-green-500"
+            className={cell.building?.color || "bg-green-500"}
             style={{ width: cellSize, height: cellSize }}
           />
         ))
