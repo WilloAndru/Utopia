@@ -1,22 +1,16 @@
 import { create } from "zustand";
-import type { Cell, GameState } from "./models";
+import { createGrid } from "./grid";
+import type { Cell } from "./grid";
 
-// Crea una grilla del tamaño indicado y los atributos iniciales
-function createGrid(size: number): Cell[][] {
-  return Array.from({ length: size }, () =>
-    Array.from({ length: size }, () => ({
-      building: null,
-    }))
-  );
-}
+export type GameState = {
+  grid: Cell[][];
+  money: number;
+};
 
 // Crea el estado global del juego
-export const useGameStore = create<GameState>(() => {
-  const initialSize = 50;
-
+export const useGameStore = create<GameState>((set, get) => {
   return {
-    size: initialSize,
-    grid: createGrid(initialSize),
+    grid: createGrid(),
     money: 1000,
   };
 });
