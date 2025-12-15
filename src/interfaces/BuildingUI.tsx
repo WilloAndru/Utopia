@@ -24,10 +24,13 @@ export default function BuildingUI() {
 
   if (!nameUI) return null;
 
+  let content = null;
+
   switch (nameUI) {
     case "Castle":
-      return <MainMenu />;
-    default:
-      return null;
+      content = <MainMenu />;
+      break;
   }
+
+  return <aside ref={uiRef}>{content}</aside>;
 }

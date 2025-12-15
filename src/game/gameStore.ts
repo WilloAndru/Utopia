@@ -6,31 +6,46 @@ export type GameState = {
   grid: Cell[][];
   money: number;
 
+  idOpenUI: number | null;
   typeOpenUI: string | null;
 
-  openUI: (name: string) => void;
+  openUI: (id: number, name: string) => void;
   clearInterfaces: () => void;
 };
 
 // Crea el estado global del juego
-export const useGameStore = create<GameState>((set, get) => {
-  return {
-    grid: createGrid(),
-    money: 1000,
-    typeOpenUI: null,
+export const useGameStore = create<GameState>((set, get) => ({
+  grid: createGrid(),
+  money: 1000,
 
-    // Cuando se le click a una estructura muestra interfaz
-    openUI: (name) => {
-      set({
-        typeOpenUI: name,
-      });
-    },
+  idOpenUI: null,
+  typeOpenUI: null,
 
-    // Oculta todas las interfaces
-    clearInterfaces: () => {
+  // Abre o cierra la interfaz según el edificio clickeado
+  openUI: (id, name) => {
+    const { idOpenUI } = get();
+
+    // Si se hace click en el mismo edificio → toggle (cerrar)
+    if (idOpenUI === id) {
       set({
+        idOpenUI: null,
         typeOpenUI: null,
       });
-    },
-  };
-});
+      return;
+    }
+
+    // Si es otro edificio → abrir su interfaz
+    set({
+      idOpenUI: id,
+      typeOpenUI: name,
+    });
+  },
+
+  // Cierra cualquier interfaz abierta
+  clearInterfaces: () => {
+    set({
+      idOpenUI: null,
+      typeOpenUI: null,
+    });
+  },
+}));

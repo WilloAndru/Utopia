@@ -28,7 +28,7 @@ export default function Grid({ cellSize = 8 }) {
               }}
               onClick={() => {
                 if (cell.building) {
-                  openUI(cell.building.name);
+                  openUI(cell.building.id, cell.building.name);
                 }
               }}
             />

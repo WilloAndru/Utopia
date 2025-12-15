@@ -1,3 +1,5 @@
+import { castleData } from "../data/buildings";
+
 export type Building = {
   id: number;
   name: string;
@@ -37,12 +39,12 @@ export function createGrid(): Cell[][] {
 
       if (!isCorner) {
         grid[x][y].building = {
-          id: 0,
-          name: "Castle",
+          id: castleData.id,
+          name: castleData.name,
           level: 1,
-          cost: 0,
-          color: "bg-yellow-300",
-          undeletable: true,
+          cost: castleData.cost,
+          color: castleData.color,
+          undeletable: castleData.undelatable,
         };
       }
     }
