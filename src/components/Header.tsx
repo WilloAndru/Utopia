@@ -1,12 +1,14 @@
 import { useGameStore } from "../game/gameStore";
+import { LuMenu } from "react-icons/lu";
 
 export default function Header() {
-  const money = useGameStore((s) => s.money);
+  const openUI = useGameStore((s) => s.openUI);
 
   return (
-    <header className="flex-col h-screen w-60 flex gap-2 absolute left-0 bg-red-800 px-2">
-      <h1>Utopia</h1>
-      <h6>{money}</h6>
+    <header className="w-full flex gap-4 absolute top-0 p-2">
+      <button className="btn-1" onClick={() => openUI("Castle")}>
+        <LuMenu />
+      </button>
     </header>
   );
 }

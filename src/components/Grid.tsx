@@ -3,6 +3,7 @@ import { getBuildingBorder } from "../utils/getBuildingBorder";
 
 export default function Grid({ cellSize = 8 }) {
   const grid = useGameStore((s) => s.grid);
+  const openUI = useGameStore((s) => s.openUI);
 
   return (
     <main
@@ -16,7 +17,7 @@ export default function Grid({ cellSize = 8 }) {
 
           return (
             <div
-              key={`${x}-${y}`}
+              key={`${x}${y}`}
               className={`${
                 cell.building?.color || "bg-green-500"
               } ${borderClasses}`}
@@ -24,6 +25,11 @@ export default function Grid({ cellSize = 8 }) {
                 width: cellSize,
                 height: cellSize,
                 boxSizing: "border-box",
+              }}
+              onClick={() => {
+                if (cell.building) {
+                  openUI(cell.building.name);
+                }
               }}
             />
           );
