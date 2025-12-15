@@ -1,4 +1,5 @@
 export type Building = {
+  id: number;
   name: string;
   level: number;
   cost: number;
@@ -10,7 +11,7 @@ export type Cell = {
   building: Building | null;
 };
 
-// Creacion de las celdas
+// Creacion de la grilla
 export function createGrid(): Cell[][] {
   // Creamos la grilla vacia
   const size = 80;
@@ -36,6 +37,7 @@ export function createGrid(): Cell[][] {
 
       if (!isCorner) {
         grid[x][y].building = {
+          id: 0,
           name: "Castle",
           level: 1,
           cost: 0,
