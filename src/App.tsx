@@ -1,13 +1,13 @@
 import Header from "./components/Header";
 import Grid from "./components/Grid";
-import BuildingUI from "./interfaces/BuildingUI";
+import UIManager from "./interfaces/UIManager";
 import { useGameStore } from "./game/gameStore";
 import { useEffect } from "preact/hooks";
 
 export function App() {
   const clearUI = useGameStore((s) => s.clearUI);
 
-  // Detecta cuando se usa Esc para cerrar interfaces
+  // Detecta cuando se usa Esc para cerrar interfaz
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -23,7 +23,7 @@ export function App() {
     <main className="flex justify-center items-center h-screen bg-blue-400">
       <Header />
       <Grid />
-      <BuildingUI />
+      <UIManager />
     </main>
   );
 }

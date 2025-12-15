@@ -8,6 +8,7 @@
 
 h1,
 h4,
+h5,
 h6 {
   font-weight: bold;
 }
@@ -26,7 +27,7 @@ h4 {
   background-color: firebrick;
   color: white;
   font-size: 1.5rem;
-  border: 2px solid maroon;
+  border: 3px solid maroon;
 
   &:hover {
     background-color: crimson;

@@ -2,7 +2,7 @@ import { useRef, useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import MainMenu from "./MainMenu";
 
-export default function BuildingUI() {
+export default function UIManager() {
   const nameUI = useGameStore((s) => s.typeOpenUI);
   const clearInterface = useGameStore((s) => s.clearUI);
   const uiRef = useRef<HTMLDivElement>(null);

@@ -2,7 +2,7 @@ export const castleData = {
   id: 0,
   name: "Castle",
   cost: 0,
-  color: "bg-yellow-300",
+  color: "bg-emerald-300",
   size: null,
   undelatable: true,
 };
@@ -12,7 +12,7 @@ export const pathData = {
   name: "Path",
   cost: 1,
   size: 1,
-  color: "bg-amber-300 border border-amber-500",
+  color: "bg-amber-300",
 };
 
 export const house1Data = {
@@ -20,7 +20,7 @@ export const house1Data = {
   name: "House",
   cost: 10,
   size: 1,
-  color: "bg-orange-300 border border-orange-600",
+  color: "bg-orange-300",
 };
 
 export const tree = {
@@ -28,7 +28,7 @@ export const tree = {
   name: "Tree",
   cost: 1,
   size: 1,
-  color: "bg-green-500 border border-green-700",
+  color: "bg-green-500",
 };
 
 export const rock = {
@@ -36,5 +36,5 @@ export const rock = {
   name: "Rock",
   cost: 1,
   size: 1,
-  color: "bg-gray-400 border border-gray-600",
+  color: "bg-gray-400",
 };
