@@ -10,7 +10,7 @@ export type GameState = {
   typeOpenUI: string | null;
 
   openUI: (id: number, name: string) => void;
-  clearInterfaces: () => void;
+  clearUI: () => void;
 };
 
 // Crea el estado global del juego
@@ -42,7 +42,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   },
 
   // Cierra cualquier interfaz abierta
-  clearInterfaces: () => {
+  clearUI: () => {
     set({
       idOpenUI: null,
       typeOpenUI: null,

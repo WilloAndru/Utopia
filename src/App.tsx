@@ -5,19 +5,19 @@ import { useGameStore } from "./game/gameStore";
 import { useEffect } from "preact/hooks";
 
 export function App() {
-  const clearInterfaces = useGameStore((s) => s.clearInterfaces);
+  const clearUI = useGameStore((s) => s.clearUI);
 
   // Detecta cuando se usa Esc para cerrar interfaces
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        clearInterfaces();
+        clearUI();
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [clearInterfaces]);
+  }, [clearUI]);
 
   return (
     <main className="flex justify-center items-center h-screen bg-blue-400">

@@ -7,7 +7,7 @@ export default function Grid({ cellSize = 8 }) {
 
   return (
     <main
-      className="grid"
+      className="grid border border-gray-700"
       style={{ gridTemplateColumns: `repeat(${grid.length}, ${cellSize}px)` }}
     >
       {grid.map((row, x) =>

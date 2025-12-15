@@ -6,7 +6,7 @@ export type Building = {
   level: number;
   cost: number;
   color: string;
-  undeletable: boolean;
+  undeletable?: boolean;
 };
 
 export type Cell = {

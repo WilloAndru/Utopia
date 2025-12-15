@@ -4,7 +4,7 @@ import MainMenu from "./MainMenu";
 
 export default function BuildingUI() {
   const nameUI = useGameStore((s) => s.typeOpenUI);
-  const clearInterface = useGameStore((s) => s.clearInterfaces);
+  const clearInterface = useGameStore((s) => s.clearUI);
   const uiRef = useRef<HTMLDivElement>(null);
 
   // Detecta click en el DOM, para cerrar o mantener la interfaz
@@ -27,10 +27,10 @@ export default function BuildingUI() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [nameUI]);
 
-  if (!nameUI) return null;
+  if (!nameUI) return null; // Si no hay interfaz activa no devulve nada
 
+  // Dependiendo del nombre de la UI muestra la interfaz correspondiente
   let content = null;
-
   switch (nameUI) {
     case "Castle":
       content = <MainMenu />;

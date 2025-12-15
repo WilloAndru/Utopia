@@ -3,7 +3,7 @@
 
 * {
   font-family: "Montserrat", sans-serif;
-  box-sizing: border-box-;
+  box-sizing: border-box;
 }
 
 h1,
@@ -22,8 +22,13 @@ h4 {
 
 .btn-1 {
   padding: 5px;
-  border-radius: 5px;
-  background-color: crimson;
+  border-radius: 8px;
+  background-color: firebrick;
   color: white;
   font-size: 1.5rem;
+  border: 2px solid maroon;
+
+  &:hover {
+    background-color: crimson;
+  }
 }
