@@ -1,40 +1,64 @@
-export const castleData = {
-  id: 0,
-  name: "Castle",
-  cost: 0,
-  color: "bg-emerald-300",
-  size: null,
-  undelatable: true,
-};
+export const BUILDINGS = {
+  castle: {
+    id: 0,
+    name: "Castillo",
+    cost: 0,
+    size: 0,
+    color: "bg-emerald-300",
+    deletable: false,
+  },
 
-export const pathData = {
-  id: 1,
-  name: "Path",
-  cost: 1,
-  size: 1,
-  color: "bg-amber-300",
-};
+  path: {
+    id: 1,
+    name: "Camino",
+    cost: 1,
+    size: 3,
+    color: "bg-amber-300",
+    deletable: true,
+  },
 
-export const house1Data = {
-  id: 2,
-  name: "House",
-  cost: 10,
-  size: 1,
-  color: "bg-orange-300",
-};
+  house: {
+    id: 2,
+    name: "Casa",
+    cost: 10,
+    size: 2,
+    color: "bg-orange-300",
+    deletable: true,
+  },
 
-export const tree = {
-  id: 3,
-  name: "Tree",
-  cost: 1,
-  size: 1,
-  color: "bg-green-500",
-};
+  tree: {
+    id: 3,
+    name: "Arbol",
+    cost: 1,
+    size: 2,
+    color: "bg-green-500",
+    deletable: true,
+  },
 
-export const rock = {
-  id: 4,
-  name: "Rock",
-  cost: 1,
-  size: 1,
-  color: "bg-gray-400",
+  rock: {
+    id: 4,
+    name: "Roca",
+    cost: 1,
+    size: 1,
+    color: "bg-gray-400",
+    deletable: true,
+  },
+
+  rock2: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    size: 2,
+    color: "bg-gray-400",
+    deletable: true,
+  },
+
+  rock3: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    size: 4,
+    color: "bg-gray-400",
+    deletable: true,
+  },
 };

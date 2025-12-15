@@ -1,4 +1,4 @@
-import { castleData } from "../data/buildings";
+import { BUILDINGS } from "../data/buildings";
 
 export type Building = {
   id: number;
@@ -24,6 +24,7 @@ export function createGrid(): Cell[][] {
   );
 
   // Creamos el castillo en el centro
+  const castleData = BUILDINGS.castle;
   const castleSize = 6;
   const start = Math.floor(size / 2) - Math.floor(castleSize / 2); // Pos inicial
   const end = start + castleSize; // Pos final
@@ -44,7 +45,7 @@ export function createGrid(): Cell[][] {
           level: 1,
           cost: castleData.cost,
           color: castleData.color,
-          undeletable: castleData.undelatable,
+          undeletable: castleData.deletable,
         };
       }
     }

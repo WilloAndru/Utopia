@@ -1,5 +1,6 @@
 import { IoCloseSharp } from "react-icons/io5";
 import { useGameStore } from "../game/gameStore";
+import Building from "./components/Building";
 
 export default function MainMenu() {
   const clearUI = useGameStore((s) => s.clearUI);
@@ -11,7 +12,7 @@ export default function MainMenu() {
   ];
 
   return (
-    <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-150 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
+    <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-160 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
       {/* Header */}
       <header className="flex w-full justify-between">
         <h4>Menu principal</h4>
@@ -20,7 +21,7 @@ export default function MainMenu() {
         </button>
       </header>
       {/* Main */}
-      <main className="flex gap-2">
+      <main className="flex gap-2 w-full">
         {/* Barra de navegacion */}
         <nav className="w-fit rounded-xl flex flex-col border-4 border-emerald-500 bg-emerald-500 gap-1">
           {mainMenuSections.map((i, index) => (
@@ -34,7 +35,9 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl px-3 py-2"></section>
+        <section className="bg-emerald-500 rounded-xl px-3 py-2 -mr-2">
+          <Building />
+        </section>
       </main>
     </aside>
   );

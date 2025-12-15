@@ -32,7 +32,7 @@ export default function UIManager() {
   // Dependiendo del nombre de la UI muestra la interfaz correspondiente
   let content = null;
   switch (nameUI) {
-    case "Castle":
+    case "Castillo":
       content = <MainMenu />;
       break;
   }
