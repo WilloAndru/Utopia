@@ -10,6 +10,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
   const clearUI = useGameStore((s) => s.clearUI);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
+  // Funcion al dar click en una tarjeta para construir
   const handleBuild = () => {
     clearUI();
   };
@@ -21,6 +22,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
     >
       {/* Nombre de la estructura */}
       <h6>{build.name}</h6>
+      {/* Muestra info basica o detallada */}
       {!isSeeMore ? (
         //Tarjeta que muestra la info inical
         <div className="flex flex-col gap-1 items-center">

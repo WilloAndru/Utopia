@@ -1,9 +1,10 @@
 import { BUILDINGS } from "../../data/buildings";
 import BuildingCard from "./BuildingCard";
 
+// Interfaz de construccion, para consturir todas las estructuras
 export default function Building() {
   return (
-    <main className="grid grid-cols-3 auto-rows-[154px] gap-2 w-full h-120 overflow-y-auto">
+    <main className="grid grid-cols-3 auto-rows-[154px] h-full gap-2 w-full overflow-y-auto">
       {Object.values(BUILDINGS)
         .slice(1)
         .map((b, i) => (
