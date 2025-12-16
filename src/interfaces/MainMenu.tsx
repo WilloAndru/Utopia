@@ -5,12 +5,12 @@ import Store from "./components/Store";
 import Population from "./components/Population";
 import { useState } from "preact/hooks";
 
+// Secciones del menu principal
 const SECTIONS = {
   Construcción: Building,
   Almacen: Store,
   Población: Population,
 } as const;
-
 type SectionKey = keyof typeof SECTIONS;
 
 export default function MainMenu() {
@@ -56,7 +56,7 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-124">
+        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-130">
           <ActiveComponent />
         </section>
       </main>

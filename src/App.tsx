@@ -6,12 +6,14 @@ import { useEffect } from "preact/hooks";
 
 export function App() {
   const clearUI = useGameStore((s) => s.clearUI);
+  const cancelState = useGameStore((s) => s.cancelState);
 
-  // Detecta cuando se usa Esc para cerrar interfaz
+  // Detecta cuando se usa Esc para cerrar interfaces o eventos
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         clearUI();
+        cancelState();
       }
     };
 

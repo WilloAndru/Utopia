@@ -1,16 +1,16 @@
 import { BUILDINGS } from "../data/buildings";
 
-export type Building = {
+export type BuildingModel = {
   id: number;
   name: string;
-  level: number;
+  level?: number;
   cost: number;
   color: string;
-  undeletable?: boolean;
+  deletable?: boolean;
 };
 
 export type Cell = {
-  building: Building | null;
+  building: BuildingModel | null;
 };
 
 // Creacion de la grilla
@@ -45,7 +45,7 @@ export function createGrid(): Cell[][] {
           level: 1,
           cost: castleData.cost,
           color: castleData.color,
-          undeletable: castleData.deletable,
+          deletable: castleData.deletable,
         };
       }
     }

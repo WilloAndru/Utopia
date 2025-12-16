@@ -3,7 +3,6 @@ export type BuildingData = {
   name: string;
   cost: number;
   color: string;
-  description: string;
   size: number;
   deletable: boolean;
 };
@@ -18,7 +17,6 @@ export const BUILDINGS = {
     name: "Castillo",
     cost: 0,
     color: "bg-emerald-300",
-    description: "",
     size: 0,
     deletable: false,
   },
@@ -28,8 +26,7 @@ export const BUILDINGS = {
     name: "Camino",
     cost: 1,
     color: "bg-amber-300",
-    description: "Camino para conectar distintas estructuras.",
-    size: 3,
+    size: 4,
     deletable: true,
   },
 
@@ -38,8 +35,7 @@ export const BUILDINGS = {
     name: "Casa",
     cost: 10,
     color: "bg-orange-300",
-    description: "Vivienda para aumentar la población.",
-    size: 2,
+    size: 3,
     deletable: true,
   },
 
@@ -48,7 +44,6 @@ export const BUILDINGS = {
     name: "Arbol",
     cost: 1,
     color: "bg-green-500",
-    description: "Árbol que permite obtener madera.",
     size: 2,
     deletable: true,
   },
@@ -58,7 +53,6 @@ export const BUILDINGS = {
     name: "Roca",
     cost: 1,
     color: "bg-gray-400",
-    description: "Roca que permite obtener piedra.",
     size: 1,
     deletable: true,
   },
@@ -68,7 +62,6 @@ export const BUILDINGS = {
     name: "Rock",
     cost: 1,
     color: "bg-gray-400",
-    description: "",
     size: 2,
     deletable: true,
   },
@@ -107,7 +100,6 @@ export const BUILDINGS = {
     name: "Rock",
     cost: 1,
     color: "bg-gray-400",
-    description: "",
     size: 2,
     deletable: true,
   },
@@ -116,7 +108,6 @@ export const BUILDINGS = {
     name: "Rock",
     cost: 1,
     color: "bg-gray-400",
-    description: "",
     size: 2,
     deletable: true,
   },

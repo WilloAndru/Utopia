@@ -8,10 +8,18 @@ type BuildingCardProps = {
 
 export default function BuildingCard({ build }: BuildingCardProps) {
   const clearUI = useGameStore((s) => s.clearUI);
+  const startBuild = useGameStore((s) => s.startBuild);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
   // Funcion al dar click en una tarjeta para construir
   const handleBuild = () => {
+    startBuild({
+      id: build.id,
+      name: build.name,
+      color: build.color,
+      cost: build.cost,
+      deletable: build.deletable,
+    });
     clearUI();
   };
 
@@ -29,8 +37,8 @@ export default function BuildingCard({ build }: BuildingCardProps) {
           {/* Imagen de la estructura */}
           <div
             style={{
-              width: build.size * 15,
-              height: build.size * 15,
+              width: build.size * 12,
+              height: build.size * 12,
             }}
             className={`${build.color} border border-black`}
           />
@@ -43,12 +51,9 @@ export default function BuildingCard({ build }: BuildingCardProps) {
       ) : (
         //Tarjeta que muestra la info detallada
         <div className="flex flex-col gap-1 items-center text-[0.8rem]">
-          <h6>{build.description}</h6>
-          <div className="grid grid-cols-2 gap-1">
-            <h6>
-              Tamaño:{build.size}x{build.size}
-            </h6>
-          </div>
+          <h6>
+            Tamaño: {build.size}x{build.size}
+          </h6>
         </div>
       )}
       {/* Boton para ver detalles */}
