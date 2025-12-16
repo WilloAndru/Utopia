@@ -47,3 +47,20 @@ h4 {
     background-color: #51d6a1;
   }
 }
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #51d6a1;
+  border-radius: 6px;
+  border-left: 8px solid #10b981;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #047857;
+  border-radius: 6px;
+  border-left: 8px solid #10b981;
+}

@@ -12,7 +12,7 @@ export default function MainMenu() {
   ];
 
   return (
-    <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-160 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
+    <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-190 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
       {/* Header */}
       <header className="flex w-full justify-between">
         <h4>Menu principal</h4>
@@ -23,7 +23,7 @@ export default function MainMenu() {
       {/* Main */}
       <main className="flex gap-2">
         {/* Secciones de menu */}
-        <nav className="rounded-xl flex flex-col border-4 border-emerald-500 bg-emerald-500 gap-1">
+        <nav className="rounded-xl flex flex-col border-4 border-emerald-500 bg-emerald-500 gap-2 w-70 p-1">
           {mainMenuSections.map((i, index) => (
             <button
               className="flex items-center gap-3 py-2 px-4 rounded-xl hover:bg-emerald-200 bg-emerald-300"
@@ -35,7 +35,7 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl px-3 py-2 -mr-2 w-101">
+        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full">
           <Building />
         </section>
       </main>

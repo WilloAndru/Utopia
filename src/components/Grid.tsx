@@ -1,7 +1,7 @@
 import { useGameStore } from "../game/gameStore";
 import { getBuildingBorder } from "../utils/getBuildingBorder";
 
-export default function Grid({ cellSize = 8 }) {
+export default function Grid({ cellSize = 7 }) {
   const grid = useGameStore((s) => s.grid);
   const openUI = useGameStore((s) => s.openUI);
 

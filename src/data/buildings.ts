@@ -1,3 +1,17 @@
+export type BuildingData = {
+  id: number;
+  name: string;
+  cost: number;
+  color: string;
+  description: string;
+  size: number;
+  deletable: boolean;
+};
+
+export type BuildingsMap = {
+  [key: string]: BuildingData;
+};
+
 export const BUILDINGS = {
   castle: {
     id: 0,
@@ -50,6 +64,54 @@ export const BUILDINGS = {
   },
 
   rock2: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    color: "bg-gray-400",
+    description: "",
+    size: 2,
+    deletable: true,
+  },
+
+  rock3: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    color: "bg-gray-400",
+    description: "",
+    size: 2,
+    deletable: true,
+  },
+
+  rock4: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    color: "bg-gray-400",
+    description: "",
+    size: 2,
+    deletable: true,
+  },
+
+  rock5: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    color: "bg-gray-400",
+    description: "",
+    size: 2,
+    deletable: true,
+  },
+  rock6: {
+    id: 4,
+    name: "Rock",
+    cost: 1,
+    color: "bg-gray-400",
+    description: "",
+    size: 2,
+    deletable: true,
+  },
+  rock7: {
     id: 4,
     name: "Rock",
     cost: 1,
