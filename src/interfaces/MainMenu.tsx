@@ -21,12 +21,12 @@ export default function MainMenu() {
         </button>
       </header>
       {/* Main */}
-      <main className="flex gap-2 w-full">
-        {/* Barra de navegacion */}
-        <nav className="w-fit rounded-xl flex flex-col border-4 border-emerald-500 bg-emerald-500 gap-1">
+      <main className="flex gap-2">
+        {/* Secciones de menu */}
+        <nav className="rounded-xl flex flex-col border-4 border-emerald-500 bg-emerald-500 gap-1">
           {mainMenuSections.map((i, index) => (
             <button
-              className="flex items-center gap-3 py-2 px-3 rounded-xl hover:bg-emerald-200 bg-emerald-300"
+              className="flex items-center gap-3 py-2 px-4 rounded-xl hover:bg-emerald-200 bg-emerald-300"
               key={index}
             >
               <img className="w-10" src={i.icon} alt={i.name} />
@@ -35,7 +35,7 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl px-3 py-2 -mr-2">
+        <section className="bg-emerald-500 rounded-xl px-3 py-2 -mr-2 w-101">
           <Building />
         </section>
       </main>
