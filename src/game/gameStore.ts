@@ -10,6 +10,9 @@ export type GameState = {
 
   modeState: ModeState;
 
+  hoverCell: { x: number; y: number } | null;
+  setHoverCell: (x: number, y: number) => void;
+
   idOpenUI: number | null;
   typeOpenUI: string | null;
   openUI: (id: number, name: string) => void;
@@ -26,9 +29,22 @@ export const useGameStore = create<GameState>((set, get) => ({
   idOpenUI: null,
   typeOpenUI: null,
 
+  hoverCell: null,
+  // Establece la celda hoverada en el modo de construccion
+  setHoverCell: (x, y) => {
+    set({
+      hoverCell: { x, y },
+    });
+  },
+
   // Abre o cierra la interfaz según el edificio clickeado
   openUI: (id: number, name: string) => {
-    const { idOpenUI } = get();
+    const { idOpenUI, modeState } = get();
+
+    // Si ya hay un estado activo, lo cerramos
+    if (modeState.mode !== "idle") {
+      modeState.cancelState();
+    }
 
     // Si se hace click en el mismo edificio → toggle (cerrar)
     if (idOpenUI === id) {

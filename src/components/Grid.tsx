@@ -1,11 +1,16 @@
 import { useGameStore } from "../game/gameStore";
 import { getBuildingBorder } from "../utils/getBuildingBorder";
+import { ghostCells } from "../utils/ghosCells";
 
 export default function Grid({ cellSize = 9 }) {
   const grid = useGameStore((s) => s.grid);
   const openUI = useGameStore((s) => s.openUI);
   const mode = useGameStore((s) => s.modeState.mode);
   const buildData = useGameStore((s) => s.modeState.buildData);
+  const hoverCell = useGameStore((s) => s.hoverCell);
+  const setHoverCell = useGameStore((s) => s.setHoverCell);
+  const ghoCells =
+    mode === "build" ? ghostCells(hoverCell, buildData!.size) : [];
 
   return (
     <main
@@ -16,6 +21,7 @@ export default function Grid({ cellSize = 9 }) {
         row.map((cell, y) => {
           // Validamos si la celda a generar tiene borde
           const borderClasses = getBuildingBorder(grid, x, y);
+          const isGhost = ghoCells.some((c) => c.x === x && c.y === y);
 
           return (
             <div
@@ -29,6 +35,12 @@ export default function Grid({ cellSize = 9 }) {
                 width: cellSize,
                 height: cellSize,
                 boxSizing: "border-box",
+                backgroundColor: isGhost ? "rgba(59,130,246,0.5)" : undefined,
+              }}
+              onMouseEnter={() => {
+                if (mode === "build") {
+                  setHoverCell(x, y);
+                }
               }}
               onClick={() => {
                 if (cell.building) {
