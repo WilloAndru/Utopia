@@ -9,6 +9,7 @@ type BuildingCardProps = {
 export default function BuildingCard({ build }: BuildingCardProps) {
   const clearUI = useGameStore((s) => s.clearUI);
   const { startBuild } = useGameStore((s) => s.modeState);
+  const money = useGameStore((s) => s.money);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
   // Funcion al dar click en una tarjeta para construir
@@ -26,8 +27,15 @@ export default function BuildingCard({ build }: BuildingCardProps) {
 
   return (
     <section
-      className="bg-emerald-300 rounded-xl px-4 py-2 flex flex-col gap-1 items-center justify-between hover:bg-emerald-200 border-3 border-emerald-700"
-      onClick={handleBuild}
+      className={`
+           rounded-xl px-4 py-2 flex flex-col gap-1 items-center justify-between border-3 border-emerald-700
+            ${
+              money >= build.cost // Mostramos disponibilidad de la estructura
+                ? "bg-emerald-300 hover:bg-emerald-200"
+                : "bg-gray-400 text-gray-800"
+            }
+        `}
+      onClick={money >= build.cost ? handleBuild : undefined} // Validamos que halla dinero para construir
     >
       {/* Nombre de la estructura */}
       <h6>{build.name}</h6>
@@ -38,8 +46,8 @@ export default function BuildingCard({ build }: BuildingCardProps) {
           {/* Imagen de la estructura */}
           <div
             style={{
-              width: build.size * 12,
-              height: build.size * 12,
+              width: build.size * 10,
+              height: build.size * 10,
             }}
             className={`${build.color} border border-black`}
           />

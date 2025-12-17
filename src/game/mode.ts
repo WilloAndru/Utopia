@@ -14,15 +14,14 @@ export const createModeState = (set: any, get: any): ModeState => ({
   buildData: null,
 
   startBuild: (building) => {
-    // Actualiza todo el objeto modeState para que Zustand lo detecte
-    set((state: any) => ({
-      modeState: { ...state.modeState, mode: "build", buildData: building },
-    }));
+    set({
+      modeState: { mode: "build", buildData: building },
+    });
   },
 
   cancelState: () => {
-    set((state: any) => ({
-      modeState: { ...state.modeState, mode: "idle", buildData: null },
-    }));
+    set({
+      modeState: { mode: "idle", buildData: null },
+    });
   },
 });

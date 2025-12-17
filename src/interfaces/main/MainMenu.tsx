@@ -56,7 +56,7 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-130">
+        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-120">
           <ActiveComponent />
         </section>
       </main>

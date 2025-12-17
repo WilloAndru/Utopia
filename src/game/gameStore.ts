@@ -19,7 +19,7 @@ export type GameState = {
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
   grid: createGrid(),
-  money: 1000,
+  money: 8,
 
   modeState: createModeState(set, get),
 
