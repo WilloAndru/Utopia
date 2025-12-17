@@ -3,6 +3,7 @@ import Grid from "./components/Grid";
 import UIManager from "./interfaces/UIManager";
 import { useGameStore } from "./game/gameStore";
 import { useEffect } from "preact/hooks";
+import GhostOverlay from "./components/GhostOverlay";
 
 export function App() {
   const clearUI = useGameStore((s) => s.clearUI);
@@ -22,10 +23,13 @@ export function App() {
   }, [clearUI]);
 
   return (
-    <main className="flex justify-center items-center h-screen bg-blue-400">
+    <main className="h-screen bg-blue-400 grid place-items-center">
       <Header />
-      <Grid />
-      <UIManager />
+      <div className="relative">
+        <Grid />
+        <GhostOverlay />
+        <UIManager />
+      </div>
     </main>
   );
 }
