@@ -1,4 +1,4 @@
-import { BUILDINGS } from "../../data/buildings";
+import { BUILDINGS } from "../../../data/buildings";
 import BuildingCard from "./BuildingCard";
 
 // Interfaz de construccion, para consturir todas las estructuras

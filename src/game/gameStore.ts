@@ -1,17 +1,14 @@
 import { create } from "zustand";
 import { createGrid } from "./grid";
 import type { Cell } from "./grid";
-import type { BuildingModel } from "./grid";
+import { createModeState } from "./mode";
+import type { ModeState } from "./mode";
 
 export type GameState = {
   grid: Cell[][];
   money: number;
 
-  mode: "idle" | "build";
-  buildData: BuildingModel | null;
-
-  startBuild: (building: BuildingModel) => void;
-  cancelState: () => void;
+  modeState: ModeState;
 
   idOpenUI: number | null;
   typeOpenUI: string | null;
@@ -24,24 +21,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   grid: createGrid(),
   money: 1000,
 
-  mode: "idle",
-  buildData: null,
-
-  // Empieza el estado de construccion
-  startBuild: (building) => {
-    set({
-      mode: "build",
-      buildData: building,
-    });
-  },
-
-  // Vuelve al estado de idle
-  cancelState: () => {
-    set({
-      mode: "idle",
-      buildData: null,
-    });
-  },
+  modeState: createModeState(set, get),
 
   idOpenUI: null,
   typeOpenUI: null,

@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
-import { useGameStore } from "../../game/gameStore";
-import type { BuildingData } from "../../data/buildings";
+import { useGameStore } from "../../../game/gameStore";
+import type { BuildingData } from "../../../data/buildings";
 
 type BuildingCardProps = {
   build: BuildingData;
@@ -8,7 +8,7 @@ type BuildingCardProps = {
 
 export default function BuildingCard({ build }: BuildingCardProps) {
   const clearUI = useGameStore((s) => s.clearUI);
-  const startBuild = useGameStore((s) => s.startBuild);
+  const { startBuild } = useGameStore((s) => s.modeState);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
   // Funcion al dar click en una tarjeta para construir
@@ -16,8 +16,9 @@ export default function BuildingCard({ build }: BuildingCardProps) {
     startBuild({
       id: build.id,
       name: build.name,
-      color: build.color,
       cost: build.cost,
+      color: build.color,
+      size: build.size,
       deletable: build.deletable,
     });
     clearUI();

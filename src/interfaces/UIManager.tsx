@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
-import MainMenu from "./MainMenu";
+import MainMenu from "./main/MainMenu";
 
 export default function UIManager() {
   const nameUI = useGameStore((s) => s.typeOpenUI);

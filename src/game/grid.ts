@@ -5,6 +5,7 @@ export type BuildingModel = {
   name: string;
   level?: number;
   cost: number;
+  size: number;
   color: string;
   deletable?: boolean;
 };
@@ -16,7 +17,7 @@ export type Cell = {
 // Creacion de la grilla
 export function createGrid(): Cell[][] {
   // Creamos la grilla vacia
-  const size = 80;
+  const size = 60;
   const grid: Cell[][] = Array.from({ length: size }, () =>
     Array.from({ length: size }, () => ({
       building: null,
@@ -43,6 +44,7 @@ export function createGrid(): Cell[][] {
           id: castleData.id,
           name: castleData.name,
           level: 1,
+          size: castleData.size,
           cost: castleData.cost,
           color: castleData.color,
           deletable: castleData.deletable,

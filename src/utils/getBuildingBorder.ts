@@ -18,10 +18,10 @@ export function getBuildingBorder(
   const right = grid[x]?.[y + 1].building?.id === id;
 
   return [
-    !top && "border-t border-black",
-    !bottom && "border-b border-black",
-    !left && "border-l border-black",
-    !right && "border-r border-black",
+    !top && "border-t",
+    !bottom && "border-b",
+    !left && "border-l",
+    !right && "border-r",
   ]
     .filter(Boolean) // Quitamos los boleanos
     .join(" "); // Devolvemos string en formato tailwind
