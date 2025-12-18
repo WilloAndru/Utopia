@@ -5,8 +5,6 @@ export type GameMode = "idle" | "build";
 export type ModeState = {
   mode: GameMode;
   buildData: BuildingData | null;
-  isSpaceFree: boolean;
-  setIsSpaceFree: (value: boolean) => void;
   startBuild: (building: BuildingData) => void;
   cancelState: () => void;
 };
@@ -14,26 +12,26 @@ export type ModeState = {
 export const createModeState = (set: any, get: any): ModeState => ({
   mode: "idle",
   buildData: null,
-  isSpaceFree: false,
 
-  setIsSpaceFree: (value) => {
+  // Estado de constuccion
+  startBuild: (building) => {
     set((state: any) => ({
       modeState: {
         ...state.modeState,
-        isSpaceFree: value,
+        mode: "build",
+        buildData: building,
       },
     }));
   },
 
-  startBuild: (building) => {
-    set((state: any) => ({
-      modeState: { ...state.modeState, mode: "build", buildData: building },
-    }));
-  },
-
+  // Cancelamos cualquier estado
   cancelState: () => {
     set((state: any) => ({
-      modeState: { ...state.modeState, mode: "idle", buildData: null },
+      modeState: {
+        ...state.modeState,
+        mode: "idle",
+        buildData: null,
+      },
     }));
   },
 });

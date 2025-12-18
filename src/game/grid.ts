@@ -19,7 +19,6 @@ export type Grid = {
   placeStructure: (
     startX: number,
     startY: number,
-    size: number,
     building: BuildingModel
   ) => void;
 };
@@ -67,19 +66,24 @@ export const createGrid = (set: any, get: any): Grid => ({
     return grid;
   })(),
 
-  // Creamos edificio en la grilla
-  placeStructure: (startX, startY, size, building) =>
+  // Modificamos la grilla con la info de la nueva estructura
+  placeStructure: (startX, startY, building) =>
     set((state: any) => {
       const newGrid = state.grid.grid.map((row: Cell[]) =>
         row.map((cell) => ({ ...cell }))
       );
 
-      for (let x = startX; x < startX + size; x++) {
-        for (let y = startY; y < startY + size; y++) {
+      for (let x = startX; x < startX + building.size; x++) {
+        for (let y = startY; y < startY + building.size; y++) {
           newGrid[x][y].building = building;
         }
       }
 
-      return { grid: newGrid };
+      return {
+        grid: {
+          ...state.grid,
+          grid: newGrid,
+        },
+      };
     }),
 });

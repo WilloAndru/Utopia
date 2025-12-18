@@ -1,16 +1,12 @@
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import { canPlaceBuilding } from "../utils/canPlaceBuilding";
 
 export default function GhostOverlay({ cellSize = 10 }) {
-  const { hoverCell } = useGameStore((s) => s);
-  const { buildData } = useGameStore((s) => s.modeState);
-  const { mode } = useGameStore((s) => s.modeState);
+  const { hoverCell, buildStructure } = useGameStore((s) => s);
+  const { mode, buildData } = useGameStore((s) => s.modeState);
   const { grid } = useGameStore((s) => s.grid);
-  const { placeStructure } = useGameStore((s) => s.grid);
-  const { isSpaceFree } = useGameStore((s) => s.modeState);
-  const { setIsSpaceFree } = useGameStore((s) => s.modeState);
-  const { cancelState } = useGameStore((s) => s.modeState);
+  const [isSpaceFree, setIsSpaceFree] = useState(false);
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
   if (mode !== "build" || !hoverCell || !buildData) return null;
@@ -30,14 +26,6 @@ export default function GhostOverlay({ cellSize = 10 }) {
     canBuild ? setIsSpaceFree(true) : setIsSpaceFree(false);
   }, [hoverCell]);
 
-  // Colocamos estructura
-  const handleBuild = () => {
-    if (isSpaceFree) {
-      cancelState();
-      placeStructure(clampedX, clampedY, buildData.size, buildData);
-    }
-  };
-
   return (
     <div
       className={`absolute top-0 left-0 border ml-px mt-px black ${
@@ -49,7 +37,9 @@ export default function GhostOverlay({ cellSize = 10 }) {
         width: `${buildData.size * cellSize}px`,
         height: `${buildData.size * cellSize}px`,
       }}
-      onClick={handleBuild}
+      onClick={() =>
+        isSpaceFree && buildStructure(clampedX, clampedY, buildData)
+      }
     />
   );
 }

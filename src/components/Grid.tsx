@@ -12,7 +12,6 @@ export default function Grid({ cellSize = 10 }) {
       className="grid border border-gray-700"
       style={{ gridTemplateColumns: `repeat(${grid.length}, ${cellSize}px)` }}
     >
-      {mode}
       {grid.map((row, x) =>
         row.map((cell, y) => {
           // Validamos si la celda tiene borde

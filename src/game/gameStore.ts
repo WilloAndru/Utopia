@@ -3,15 +3,18 @@ import { createGrid } from "./grid";
 import { createModeState } from "./mode";
 import type { ModeState } from "./mode";
 import type { Grid } from "./grid";
+import { createEconomy, type Economy } from "./economy";
+import type { BuildingModel } from "./grid";
 
 export type GameState = {
-  money: number;
-
+  economy: Economy;
   grid: Grid;
   modeState: ModeState;
 
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
+
+  buildStructure: (x: number, y: number, building: BuildingModel) => void;
 
   idOpenUI: number | null;
   typeOpenUI: string | null;
@@ -21,8 +24,7 @@ export type GameState = {
 
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
-  money: 8,
-
+  economy: createEconomy(set),
   grid: createGrid(set, get),
   modeState: createModeState(set, get),
 
@@ -30,6 +32,17 @@ export const useGameStore = create<GameState>((set, get) => ({
   typeOpenUI: null,
 
   hoverCell: null,
+
+  // Cuando se construye un edificio
+  buildStructure: (x, y, building) => {
+    const { placeStructure } = get().grid;
+    const { cancelState } = get().modeState;
+    const { spendMoney } = get().economy;
+
+    spendMoney(building.cost);
+    placeStructure(x, y, building);
+    cancelState();
+  },
 
   // Establece la celda hoverada en el modo de construccion
   setHoverCell: (x, y) => {

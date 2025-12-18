@@ -7,9 +7,9 @@ type BuildingCardProps = {
 };
 
 export default function BuildingCard({ build }: BuildingCardProps) {
-  const clearUI = useGameStore((s) => s.clearUI);
+  const { clearUI } = useGameStore((s) => s);
   const { startBuild } = useGameStore((s) => s.modeState);
-  const money = useGameStore((s) => s.money);
+  const { money } = useGameStore((s) => s.economy);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
   // Funcion al dar click en una tarjeta para construir
