@@ -1,8 +1,8 @@
 import { useGameStore } from "../game/gameStore";
 import { getBuildingBorder } from "../utils/getBuildingBorder";
 
-export default function Grid({ cellSize = 9 }) {
-  const grid = useGameStore((s) => s.grid);
+export default function Grid({ cellSize = 10 }) {
+  const grid = useGameStore((s) => s.grid.grid);
   const openUI = useGameStore((s) => s.openUI);
   const mode = useGameStore((s) => s.modeState.mode);
   const setHoverCell = useGameStore((s) => s.setHoverCell);
@@ -12,6 +12,7 @@ export default function Grid({ cellSize = 9 }) {
       className="grid border border-gray-700"
       style={{ gridTemplateColumns: `repeat(${grid.length}, ${cellSize}px)` }}
     >
+      {mode}
       {grid.map((row, x) =>
         row.map((cell, y) => {
           // Validamos si la celda tiene borde
@@ -29,14 +30,10 @@ export default function Grid({ cellSize = 9 }) {
                 height: cellSize,
               }}
               onMouseEnter={() => {
-                if (mode === "build") {
-                  setHoverCell(x, y);
-                }
+                if (mode === "build") setHoverCell(x, y);
               }}
               onClick={() => {
-                if (cell.building) {
-                  openUI(cell.building.id, cell.building.name);
-                }
+                if (cell.building) openUI(cell.building.id, cell.building.name);
               }}
             />
           );

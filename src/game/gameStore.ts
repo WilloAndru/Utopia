@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { createGrid } from "./grid";
-import type { Cell } from "./grid";
 import { createModeState } from "./mode";
 import type { ModeState } from "./mode";
+import type { Grid } from "./grid";
 
 export type GameState = {
-  grid: Cell[][];
   money: number;
 
+  grid: Grid;
   modeState: ModeState;
 
   hoverCell: { x: number; y: number } | null;
@@ -21,15 +21,16 @@ export type GameState = {
 
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
-  grid: createGrid(),
   money: 8,
 
+  grid: createGrid(set, get),
   modeState: createModeState(set, get),
 
   idOpenUI: null,
   typeOpenUI: null,
 
   hoverCell: null,
+
   // Establece la celda hoverada en el modo de construccion
   setHoverCell: (x, y) => {
     set({
