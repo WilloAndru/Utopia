@@ -9,7 +9,8 @@ import RoadGhostOverlay from "./components/RoadGhostOverlay";
 export function App() {
   const cellSize = 10;
   const clearUI = useGameStore((s) => s.clearUI);
-  const { cancelState } = useGameStore((s) => s.modeState);
+  const { mode, cancelState } = useGameStore((s) => s.modeState);
+  const { buildStructure } = useGameStore((s) => s);
 
   // Detecta cuando se usa Esc para cerrar interfaces o eventos
   useEffect(() => {
@@ -18,11 +19,12 @@ export function App() {
         clearUI();
         cancelState();
       }
+      if (e.key === "Enter" && mode === "buildRoad") {
+      }
     };
-
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [clearUI]);
+  }, [clearUI, cancelState]);
 
   return (
     <main className="h-screen bg-blue-400 grid place-items-center">
