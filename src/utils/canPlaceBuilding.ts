@@ -1,8 +1,8 @@
-import type { Cell } from "../game/grid";
+import type { CellModel } from "../game/models";
 
 // Funcion para determinar si alguna de las celdas de la estructura fantasma ya esta ocupada con otra estrucutra
 export function canPlaceBuilding(
-  grid: Cell[][],
+  grid: CellModel[][],
   size: number,
   startX: number,
   startY: number

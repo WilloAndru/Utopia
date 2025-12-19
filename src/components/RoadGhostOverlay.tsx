@@ -1,34 +1,22 @@
 import { useEffect, useState } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
-import { canPlaceBuilding } from "../utils/canPlaceBuilding";
 
-type GhostOverlayProps = {
+type RoadGhostOverlayProps = {
   cellSize: number;
 };
 
-export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
+export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   const { hoverCell, buildStructure } = useGameStore((s) => s);
   const { mode, buildData } = useGameStore((s) => s.modeState);
   const { grid } = useGameStore((s) => s.grid);
   const [isSpaceFree, setIsSpaceFree] = useState(false);
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
-  if (mode !== "build" || !hoverCell || !buildData) return null;
+  if (mode !== "buildRoad" || !hoverCell || !buildData) return null;
 
   // Calculamos el desplazamiento del ghost dentro del grid
   const clampedX = Math.min(hoverCell.x, grid.length - buildData.size);
   const clampedY = Math.min(hoverCell.y, grid.length - buildData.size);
-
-  // Validamos si alguna celda está ocupada al mover el ghost
-  useEffect(() => {
-    const canBuild = canPlaceBuilding(
-      grid,
-      buildData.size,
-      hoverCell.x,
-      hoverCell.y
-    );
-    canBuild ? setIsSpaceFree(true) : setIsSpaceFree(false);
-  }, [hoverCell]);
 
   return (
     <div

@@ -13,4 +13,4 @@ export type CellModel = {
   building: BuildingModel | null;
 };
 
-export type GameMode = "idle" | "build";
+export type GameMode = "idle" | "build" | "buildRoad";

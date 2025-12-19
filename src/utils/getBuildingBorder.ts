@@ -1,8 +1,8 @@
-import type { Cell } from "../game/grid";
+import type { CellModel } from "../game/models";
 
 // Funcion para generar los strings de los border con borde de las estructuras
 export function getBuildingBorder(
-  grid: Cell[][],
+  grid: CellModel[][],
   x: number,
   y: number
 ): string {

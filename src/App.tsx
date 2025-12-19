@@ -4,8 +4,10 @@ import UIManager from "./interfaces/UIManager";
 import { useGameStore } from "./game/gameStore";
 import { useEffect } from "preact/hooks";
 import GhostOverlay from "./components/GhostOverlay";
+import RoadGhostOverlay from "./components/RoadGhostOverlay";
 
 export function App() {
+  const cellSize = 10;
   const clearUI = useGameStore((s) => s.clearUI);
   const { cancelState } = useGameStore((s) => s.modeState);
 
@@ -26,8 +28,9 @@ export function App() {
     <main className="h-screen bg-blue-400 grid place-items-center">
       <Header />
       <div className="relative">
-        <Grid />
-        <GhostOverlay />
+        <Grid cellSize={cellSize} />
+        <GhostOverlay cellSize={cellSize} />
+        <RoadGhostOverlay cellSize={cellSize} />
         <UIManager />
       </div>
     </main>
