@@ -1,3 +1,4 @@
+// Logica que devuelve la lista de celdas con path fantasma
 export function calculatePath(
   start: { x: number; y: number },
   end: { x: number; y: number }

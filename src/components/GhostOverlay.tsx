@@ -7,9 +7,10 @@ type GhostOverlayProps = {
 };
 
 export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
-  const { hoverCell, buildStructure } = useGameStore((s) => s);
-  const { mode, buildData } = useGameStore((s) => s.modeState);
+  const { buildStructure } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
+  const { hoverCell, hoverPath, mode, buildData, startRoadBuild } =
+    useGameStore((s) => s.modeState);
   const [isSpaceFree, setIsSpaceFree] = useState(false);
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
@@ -30,6 +31,15 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
     canBuild ? setIsSpaceFree(true) : setIsSpaceFree(false);
   }, [hoverCell]);
 
+  // Cuando le damos click al fantasma
+  const handleBuildStart = () => {
+    if (buildData.id === 1) {
+      startRoadBuild(buildData);
+    } else {
+      buildStructure(clampedX, clampedY, buildData);
+    }
+  };
+
   return (
     <div
       className={`absolute top-0 left-0 border ml-px mt-px black ${
@@ -41,9 +51,7 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
         width: `${buildData.size * cellSize}px`,
         height: `${buildData.size * cellSize}px`,
       }}
-      onClick={() =>
-        isSpaceFree && buildStructure(clampedX, clampedY, buildData)
-      }
+      onClick={() => isSpaceFree && handleBuildStart()}
     />
   );
 }

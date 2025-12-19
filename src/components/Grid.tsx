@@ -1,4 +1,5 @@
 import { useGameStore } from "../game/gameStore";
+import { calculatePath } from "../utils/calculatePath ";
 import { getBuildingBorder } from "../utils/getBuildingBorder";
 
 type GridProps = {
@@ -6,10 +7,24 @@ type GridProps = {
 };
 
 export default function Grid({ cellSize }: GridProps) {
-  const grid = useGameStore((s) => s.grid.grid);
-  const openUI = useGameStore((s) => s.openUI);
-  const mode = useGameStore((s) => s.modeState.mode);
-  const setHoverCell = useGameStore((s) => s.setHoverCell);
+  const { grid } = useGameStore((s) => s.grid);
+  const { openUI } = useGameStore((s) => s);
+  const { mode, hoverCell, setHoverCell, setHoverPath } = useGameStore(
+    (s) => s.modeState
+  );
+
+  // Que pasa cuando se pasa el mouse sobre las celdas en modos no idle
+  const handleHover = (x: number, y: number) => {
+    // Si es el modo de construccion de edifico
+    if (mode === "build") {
+      setHoverCell(x, y);
+    }
+    // Si es el modo de construccion de camino
+    else if (mode === "buildRoad" && hoverCell) {
+      const path = calculatePath(hoverCell, { x, y });
+      setHoverPath(path);
+    }
+  };
 
   return (
     <main
@@ -32,9 +47,7 @@ export default function Grid({ cellSize }: GridProps) {
                 width: cellSize,
                 height: cellSize,
               }}
-              onMouseEnter={() => {
-                if (mode === "build") setHoverCell(x, y);
-              }}
+              onMouseEnter={() => handleHover(x, y)}
               onClick={() => {
                 if (cell.building) openUI(cell.building.id, cell.building.name);
               }}

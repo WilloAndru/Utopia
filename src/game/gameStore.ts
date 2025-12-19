@@ -10,8 +10,6 @@ export type GameState = {
   grid: Grid;
   modeState: ModeState;
   buildings: BuildingsState;
-  hoverCell: { x: number; y: number } | null;
-  setHoverCell: (x: number, y: number) => void;
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
   idOpenUI: number | null;
   typeOpenUI: string | null;
@@ -28,8 +26,6 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   idOpenUI: null,
   typeOpenUI: null,
-
-  hoverCell: null,
 
   // Cuando se construye un edificio
   buildStructure: (x, y, building) => {
@@ -48,13 +44,6 @@ export const useGameStore = create<GameState>((set, get) => ({
     spendMoney(building.cost);
     placeStructure(x, y, newBuilding);
     cancelState();
-  },
-
-  // Establece la celda hoverada en el modo de construccion
-  setHoverCell: (x, y) => {
-    set({
-      hoverCell: { x, y },
-    });
   },
 
   // Abre o cierra la interfaz según el edificio clickeado
