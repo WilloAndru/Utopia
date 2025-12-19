@@ -1,15 +1,15 @@
 import { create } from "zustand";
-import { createGrid } from "./grid";
-import { createModeState } from "./mode";
-import type { ModeState } from "./mode";
-import type { Grid } from "./grid";
+import { createGrid, type Grid } from "./grid";
+import { createModeState, type ModeState } from "./mode";
 import { createEconomy, type Economy } from "./economy";
-import type { BuildingModel } from "./grid";
+import { createBuildings, type BuildingsState } from "./buildings";
+import type { BuildingModel } from "./models";
 
 export type GameState = {
   economy: Economy;
   grid: Grid;
   modeState: ModeState;
+  buildings: BuildingsState;
 
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
@@ -27,6 +27,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   economy: createEconomy(set),
   grid: createGrid(set, get),
   modeState: createModeState(set, get),
+  buildings: createBuildings(set, get),
 
   idOpenUI: null,
   typeOpenUI: null,
@@ -38,9 +39,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
     const { spendMoney } = get().economy;
+    const newId = get().buildings.increment(building.id);
+
+    const newBuilding = {
+      ...building,
+      id: newId,
+    };
 
     spendMoney(building.cost);
-    placeStructure(x, y, building);
+    placeStructure(x, y, newBuilding);
     cancelState();
   },
 

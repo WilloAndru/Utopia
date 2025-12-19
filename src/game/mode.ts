@@ -1,6 +1,5 @@
 import type { BuildingData } from "../data/buildings";
-
-export type GameMode = "idle" | "build";
+import type { GameMode } from "./models";
 
 export type ModeState = {
   mode: GameMode;

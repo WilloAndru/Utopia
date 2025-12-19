@@ -4,7 +4,7 @@ export type Economy = {
 };
 
 export const createEconomy = (set: any): Economy => ({
-  money: 8,
+  money: 10,
 
   // Funcion que gasta dinero
   spendMoney: (amount) =>

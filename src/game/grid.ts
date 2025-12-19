@@ -1,21 +1,8 @@
 import { BUILDINGS } from "../data/buildings";
-
-export type BuildingModel = {
-  id: number;
-  name: string;
-  level?: number;
-  cost: number;
-  size: number;
-  color: string;
-  deletable?: boolean;
-};
-
-export type Cell = {
-  building: BuildingModel | null;
-};
+import type { CellModel, BuildingModel } from "./models";
 
 export type Grid = {
-  grid: Cell[][];
+  grid: CellModel[][];
   placeStructure: (
     startX: number,
     startY: number,
@@ -28,7 +15,7 @@ export const createGrid = (set: any, get: any): Grid => ({
   grid: (() => {
     // Creamos la grilla vacia
     const size = 50;
-    const grid: Cell[][] = Array.from({ length: size }, () =>
+    const grid: CellModel[][] = Array.from({ length: size }, () =>
       Array.from({ length: size }, () => ({
         building: null,
       }))
@@ -69,7 +56,7 @@ export const createGrid = (set: any, get: any): Grid => ({
   // Modificamos la grilla con la info de la nueva estructura
   placeStructure: (startX, startY, building) =>
     set((state: any) => {
-      const newGrid = state.grid.grid.map((row: Cell[]) =>
+      const newGrid = state.grid.grid.map((row: CellModel[]) =>
         row.map((cell) => ({ ...cell }))
       );
 

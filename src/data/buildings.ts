@@ -7,10 +7,6 @@ export type BuildingData = {
   deletable: boolean;
 };
 
-export type BuildingsMap = {
-  [key: string]: BuildingData;
-};
-
 export const BUILDINGS = {
   castle: {
     id: 0,
@@ -25,8 +21,8 @@ export const BUILDINGS = {
     id: 1,
     name: "Camino",
     cost: 1,
-    color: "bg-amber-300",
-    size: 4,
+    color: "bg-gray-500",
+    size: 1,
     deletable: true,
   },
 
@@ -35,16 +31,16 @@ export const BUILDINGS = {
     name: "Casa",
     cost: 10,
     color: "bg-orange-300",
-    size: 3,
+    size: 1,
     deletable: true,
   },
 
   tree: {
     id: 3,
     name: "Arbol",
-    cost: 5,
-    color: "bg-green-500",
-    size: 2,
+    cost: 1,
+    color: "bg-green-300",
+    size: 4,
     deletable: true,
   },
 
@@ -52,32 +48,32 @@ export const BUILDINGS = {
     id: 4,
     name: "Roca",
     cost: 5,
-    color: "bg-gray-400",
+    color: "bg-gray-500",
     size: 1,
     deletable: true,
   },
-  rock1: {
-    id: 4,
-    name: "Roca",
-    cost: 5,
-    color: "bg-gray-400",
-    size: 1,
-    deletable: true,
-  },
-  rock2: {
-    id: 4,
-    name: "Roca",
-    cost: 5,
-    color: "bg-gray-400",
-    size: 1,
-    deletable: true,
-  },
-  rock3: {
-    id: 4,
-    name: "Roca",
-    cost: 5,
-    color: "bg-gray-400",
-    size: 1,
-    deletable: true,
-  },
+  // rock1: {
+  //   id: 4,
+  //   name: "Roca",
+  //   cost: 5,
+  //   color: "bg-gray-400",
+  //   size: 1,
+  //   deletable: true,
+  // },
+  // rock2: {
+  //   id: 4,
+  //   name: "Roca",
+  //   cost: 5,
+  //   color: "bg-gray-400",
+  //   size: 1,
+  //   deletable: true,
+  // },
+  // rock3: {
+  //   id: 4,
+  //   name: "Roca",
+  //   cost: 5,
+  //   color: "bg-gray-400",
+  //   size: 1,
+  //   deletable: true,
+  // },
 };
