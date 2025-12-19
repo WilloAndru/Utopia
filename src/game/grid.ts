@@ -38,13 +38,8 @@ export const createGrid = (set: any, get: any): Grid => ({
 
         if (!isCorner) {
           grid[x][y].building = {
-            id: castleData.id,
-            name: castleData.name,
+            ...castleData,
             level: 1,
-            size: castleData.size,
-            cost: castleData.cost,
-            color: castleData.color,
-            deletable: castleData.deletable,
           };
         }
       }

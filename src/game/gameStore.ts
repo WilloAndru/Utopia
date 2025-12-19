@@ -10,12 +10,9 @@ export type GameState = {
   grid: Grid;
   modeState: ModeState;
   buildings: BuildingsState;
-
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
-
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
-
   idOpenUI: number | null;
   typeOpenUI: string | null;
   openUI: (id: number, name: string) => void;
@@ -39,11 +36,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
     const { spendMoney } = get().economy;
-    const newId = get().buildings.increment(building.id);
 
+    // Si es estructura tipo camino, devolvemos el mismo id para todo
     const newBuilding = {
       ...building,
-      id: newId,
+      id: building.usesInstanceId
+        ? get().buildings.increment(building.id)
+        : building.id,
     };
 
     spendMoney(building.cost);

@@ -14,14 +14,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
 
   // Funcion al dar click en una tarjeta para construir
   const handleBuild = () => {
-    startBuild({
-      id: build.id,
-      name: build.name,
-      cost: build.cost,
-      color: build.color,
-      size: build.size,
-      deletable: build.deletable,
-    });
+    startBuild(build);
     clearUI();
   };
 

@@ -6,6 +6,7 @@ export type BuildingModel = {
   size: number;
   color: string;
   deletable?: boolean;
+  usesInstanceId: boolean;
 };
 
 export type CellModel = {

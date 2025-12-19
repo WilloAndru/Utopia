@@ -5,9 +5,10 @@ export type BuildingData = {
   color: string;
   size: number;
   deletable: boolean;
+  usesInstanceId: boolean;
 };
 
-export const BUILDINGS = {
+export const BUILDINGS: Record<string, BuildingData> = {
   castle: {
     id: 0,
     name: "Castillo",
@@ -15,15 +16,17 @@ export const BUILDINGS = {
     color: "bg-emerald-300",
     size: 0,
     deletable: false,
+    usesInstanceId: true,
   },
 
   path: {
     id: 1,
     name: "Camino",
     cost: 1,
-    color: "bg-gray-500",
+    color: "bg-gray-400",
     size: 1,
     deletable: true,
+    usesInstanceId: false,
   },
 
   house: {
@@ -33,6 +36,7 @@ export const BUILDINGS = {
     color: "bg-orange-300",
     size: 1,
     deletable: true,
+    usesInstanceId: true,
   },
 
   tree: {
@@ -42,6 +46,7 @@ export const BUILDINGS = {
     color: "bg-green-300",
     size: 4,
     deletable: true,
+    usesInstanceId: true,
   },
 
   rock: {
@@ -51,6 +56,7 @@ export const BUILDINGS = {
     color: "bg-gray-500",
     size: 1,
     deletable: true,
+    usesInstanceId: true,
   },
   // rock1: {
   //   id: 4,
