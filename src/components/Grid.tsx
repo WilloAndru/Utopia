@@ -53,9 +53,9 @@ export default function Grid({ cellSize }: GridProps) {
               onClick={() => {
                 // Se guarda el previewPath en roadPath y se continua con el modo buildRoad
                 if (mode === "buildRoad" && previewPath && isAvailable) {
-                  setRoadPath(previewPath);
+                  setRoadPath(previewPath.slice(0, -1));
                   setHoverCell(x, y);
-                  setPreviewPath(null);
+                  setPreviewPath([{ x, y }]);
                 }
                 if (cell.building) openUI(cell.building.id, cell.building.name);
               }}
