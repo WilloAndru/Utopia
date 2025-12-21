@@ -10,8 +10,7 @@ import { BUILDINGS } from "./data/buildings";
 export function App() {
   const cellSize = 10;
   const clearUI = useGameStore((s) => s.clearUI);
-  const { mode, cancelState, startBuild } = useGameStore((s) => s.modeState);
-  const { buildStructure } = useGameStore((s) => s);
+  const { cancelState, startBuild } = useGameStore((s) => s.modeState);
 
   // Detecta cuando se usa Esc para cerrar interfaces o eventos
   useEffect(() => {
@@ -23,12 +22,10 @@ export function App() {
       if (e.key === "p") {
         startBuild(BUILDINGS.path);
       }
-      if (e.key === "Enter" && mode === "buildRoad") {
-      }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [clearUI, cancelState]);
+  }, []);
 
   return (
     <main className="h-screen bg-blue-400 grid place-items-center">

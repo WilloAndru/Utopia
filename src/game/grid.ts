@@ -8,6 +8,10 @@ export type Grid = {
     startY: number,
     building: BuildingModel
   ) => void;
+  placeRoad: (
+    path: { x: number; y: number }[],
+    building: BuildingModel
+  ) => void;
 };
 
 export const createGrid = (set: any, get: any): Grid => ({
@@ -60,6 +64,25 @@ export const createGrid = (set: any, get: any): Grid => ({
           newGrid[x][y].building = building;
         }
       }
+
+      return {
+        grid: {
+          ...state.grid,
+          grid: newGrid,
+        },
+      };
+    }),
+
+  // Modificamos la grilla con la info del nuevo camino
+  placeRoad: (path, building) =>
+    set((state: any) => {
+      const newGrid = state.grid.grid.map((row: CellModel[]) =>
+        row.map((cell) => ({ ...cell }))
+      );
+
+      path.map((cell) => {
+        newGrid[cell.x][cell.y].building = building;
+      });
 
       return {
         grid: {

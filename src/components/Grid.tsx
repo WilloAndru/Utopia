@@ -13,6 +13,7 @@ export default function Grid({ cellSize }: GridProps) {
   const { previewPath, setPreviewPath, roadPath, setRoadPath } = useGameStore(
     (s) => s.modeState
   );
+  const { isAvailable } = useGameStore((s) => s.modeState);
 
   // Que pasa cuando se pasa el mouse sobre las celdas en modos no idle
   const handleHover = (x: number, y: number) => {
@@ -51,8 +52,8 @@ export default function Grid({ cellSize }: GridProps) {
               onMouseEnter={() => handleHover(x, y)}
               onClick={() => {
                 // Se guarda el previewPath en roadPath y se continua con el modo buildRoad
-                if (mode === "buildRoad" && previewPath) {
-                  setRoadPath(previewPath.slice(0, -1));
+                if (mode === "buildRoad" && previewPath && isAvailable) {
+                  setRoadPath(previewPath);
                   setHoverCell(x, y);
                   setPreviewPath(null);
                 }

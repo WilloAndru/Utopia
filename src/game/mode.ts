@@ -5,6 +5,9 @@ export type ModeState = {
   mode: GameMode;
   buildData: BuildingData | null;
 
+  isAvailable: boolean;
+  setIsAvailable: (value: boolean) => void;
+
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
 
@@ -13,9 +16,6 @@ export type ModeState = {
 
   roadPath: { x: number; y: number }[];
   setRoadPath: (path: { x: number; y: number }[]) => void;
-
-  isAvailable: boolean;
-  setIsAvailable: (value: boolean) => void;
 
   startBuild: (building: BuildingData) => void;
   startRoadBuild: (building: BuildingData) => void;
@@ -28,14 +28,16 @@ export const createModeState = (set: any, get: any): ModeState => ({
 
   // Establece si la construccion es disponible
   isAvailable: true,
-  setIsAvailable: (value) => {
-    set((state: any) => ({
-      modeState: {
-        ...state.modeState,
-        isAvailable: value,
-      },
-    }));
-  },
+  setIsAvailable: (value) =>
+    set((state: any) => {
+      if (state.modeState.isAvailable === value) return state;
+      return {
+        modeState: {
+          ...state.modeState,
+          isAvailable: value,
+        },
+      };
+    }),
 
   // Establece la celda hoverada en el modo de construccion
   hoverCell: null,
@@ -59,7 +61,7 @@ export const createModeState = (set: any, get: any): ModeState => ({
     }));
   },
 
-  // Establece el path fantasma luego de hacer doble click
+  // Establece el path fantasma luego de hacer el segundo click
   roadPath: [],
   setRoadPath: (path) => {
     set((state: any) => ({
@@ -99,8 +101,10 @@ export const createModeState = (set: any, get: any): ModeState => ({
         ...state.modeState,
         mode: "idle",
         buildData: null,
-        hoverPath: null,
         hoverCell: null,
+        previewPath: null,
+        roadPath: [],
+        isAvailable: true,
       },
     }));
   },

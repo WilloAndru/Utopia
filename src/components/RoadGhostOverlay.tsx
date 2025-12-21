@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import { getRoadGhostBorders } from "../utils/getRoadGhostBorders";
 import { canPlaceBuilding } from "../utils/canPlaceBuilding";
@@ -11,9 +11,10 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   const { mode, buildData, previewPath, roadPath } = useGameStore(
     (s) => s.modeState
   );
+  const { isAvailable, setIsAvailable } = useGameStore((s) => s.modeState);
+  const { buildRoad } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
   const { money } = useGameStore((s) => s.economy);
-  const [isAvailable, setIsAvailable] = useState(false);
   const currentPath = [...(roadPath ?? []), ...(previewPath ?? [])];
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
@@ -30,7 +31,15 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
       money >= buildData.cost * currentPath!.length; // Validamos que no exeda el dinero
 
     setIsAvailable(canBuild);
-    console.log(currentPath);
+
+    // Listener para confirmar construccion
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        canBuild && buildRoad(currentPath);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [currentPath]);
 
   return (

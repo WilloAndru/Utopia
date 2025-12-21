@@ -9,8 +9,11 @@ export type GameState = {
   economy: Economy;
   grid: Grid;
   modeState: ModeState;
+
   buildings: BuildingsState;
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
+  buildRoad: (path: { x: number; y: number }[]) => void;
+
   idOpenUI: number | null;
   typeOpenUI: string | null;
   openUI: (id: number, name: string) => void;
@@ -27,22 +30,31 @@ export const useGameStore = create<GameState>((set, get) => ({
   idOpenUI: null,
   typeOpenUI: null,
 
-  // Cuando se construye un edificio
+  // Construccion de edificio
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
     const { spendMoney } = get().economy;
 
-    // Si es estructura tipo camino, devolvemos el mismo id para todo
+    // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
       ...building,
-      id: building.usesInstanceId
-        ? get().buildings.increment(building.id)
-        : building.id,
+      id: get().buildings.increment(building.id),
     };
 
     spendMoney(building.cost);
     placeStructure(x, y, newBuilding);
+    cancelState();
+  },
+
+  // Construccion de carretera
+  buildRoad: (currentPath) => {
+    const { placeRoad } = get().grid;
+    const { buildData, cancelState } = get().modeState;
+    const { spendMoney } = get().economy;
+
+    spendMoney(buildData!.cost * currentPath.length);
+    placeRoad(currentPath, buildData!);
     cancelState();
   },
 
