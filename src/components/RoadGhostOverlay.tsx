@@ -8,36 +8,40 @@ type RoadGhostOverlayProps = {
 };
 
 export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
-  const { mode, buildData, hoverPath, setHoverCell } = useGameStore(
+  const { mode, buildData, previewPath, roadPath } = useGameStore(
     (s) => s.modeState
   );
   const { grid } = useGameStore((s) => s.grid);
   const { money } = useGameStore((s) => s.economy);
   const [isAvailable, setIsAvailable] = useState(false);
+  const currentPath = [...(roadPath ?? []), ...(previewPath ?? [])];
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
   if (mode !== "buildRoad" || !buildData) return null;
 
   // Validamos si alguna celda está ocupada al mover el ghost o exedio el dinero
   useEffect(() => {
-    const { x, y } = hoverPath!.at(-1)!; // Coordenadas del ultimo path
+    if (!previewPath) return;
+
+    const { x, y } = previewPath!.at(-1)!; // Coordenadas del ultimo path
 
     const canBuild =
       canPlaceBuilding(grid, buildData.size, x, y) && // Validamos que no choque con una estructura
-      money >= buildData.cost * hoverPath!.length; // Validamos que no exeda el dinero
+      money >= buildData.cost * currentPath!.length; // Validamos que no exeda el dinero
 
     setIsAvailable(canBuild);
-  }, [hoverPath]);
+    console.log(currentPath);
+  }, [currentPath]);
 
   return (
     <>
-      {hoverPath?.map((cell) => {
+      {currentPath?.map((cell) => {
         return (
           <div
             key={`${cell.x}-${cell.y}`}
-            className={`absolute top-0 left-0 border ml-px mt-px opacity-75
+            className={`absolute top-0 left-0 border ml-px mt-px opacity-75 pointer-events-none
               ${isAvailable ? buildData.color : "bg-red-600"}
-              ${getRoadGhostBorders(hoverPath, cell)}
+              ${getRoadGhostBorders(currentPath, cell)}
             `}
             style={{
               transform: `translate(${cell.y * cellSize}px, ${
@@ -46,7 +50,6 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
               width: `${cellSize}px`,
               height: `${cellSize}px`,
             }}
-            onClick={() => isAvailable && setHoverCell(cell.x, cell.y)}
           />
         );
       })}

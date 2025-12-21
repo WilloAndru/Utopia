@@ -9,7 +9,8 @@ type GridProps = {
 export default function Grid({ cellSize }: GridProps) {
   const { grid } = useGameStore((s) => s.grid);
   const { openUI } = useGameStore((s) => s);
-  const { mode, hoverCell, setHoverCell, setHoverPath } = useGameStore(
+  const { mode, hoverCell, setHoverCell } = useGameStore((s) => s.modeState);
+  const { previewPath, setPreviewPath, roadPath, setRoadPath } = useGameStore(
     (s) => s.modeState
   );
 
@@ -22,7 +23,7 @@ export default function Grid({ cellSize }: GridProps) {
     // Si es el modo de construccion de camino
     else if (mode === "buildRoad" && hoverCell) {
       const path = calculatePath(hoverCell, { x, y });
-      setHoverPath(path);
+      setPreviewPath(path);
     }
   };
 
@@ -49,6 +50,12 @@ export default function Grid({ cellSize }: GridProps) {
               }}
               onMouseEnter={() => handleHover(x, y)}
               onClick={() => {
+                // Se guarda el previewPath en roadPath y se continua con el modo buildRoad
+                if (mode === "buildRoad" && previewPath) {
+                  setRoadPath(previewPath.slice(0, -1));
+                  setHoverCell(x, y);
+                  setPreviewPath(null);
+                }
                 if (cell.building) openUI(cell.building.id, cell.building.name);
               }}
             />

@@ -5,11 +5,12 @@ import { useGameStore } from "./game/gameStore";
 import { useEffect } from "preact/hooks";
 import GhostOverlay from "./components/GhostOverlay";
 import RoadGhostOverlay from "./components/RoadGhostOverlay";
+import { BUILDINGS } from "./data/buildings";
 
 export function App() {
   const cellSize = 10;
   const clearUI = useGameStore((s) => s.clearUI);
-  const { mode, cancelState } = useGameStore((s) => s.modeState);
+  const { mode, cancelState, startBuild } = useGameStore((s) => s.modeState);
   const { buildStructure } = useGameStore((s) => s);
 
   // Detecta cuando se usa Esc para cerrar interfaces o eventos
@@ -18,6 +19,9 @@ export function App() {
       if (e.key === "Escape") {
         clearUI();
         cancelState();
+      }
+      if (e.key === "p") {
+        startBuild(BUILDINGS.path);
       }
       if (e.key === "Enter" && mode === "buildRoad") {
       }

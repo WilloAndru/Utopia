@@ -8,8 +8,14 @@ export type ModeState = {
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
 
-  hoverPath: { x: number; y: number }[] | null;
-  setHoverPath: (path: { x: number; y: number }[]) => void;
+  previewPath: { x: number; y: number }[] | null;
+  setPreviewPath: (path: { x: number; y: number }[] | null) => void;
+
+  roadPath: { x: number; y: number }[];
+  setRoadPath: (path: { x: number; y: number }[]) => void;
+
+  isAvailable: boolean;
+  setIsAvailable: (value: boolean) => void;
 
   startBuild: (building: BuildingData) => void;
   startRoadBuild: (building: BuildingData) => void;
@@ -20,10 +26,19 @@ export const createModeState = (set: any, get: any): ModeState => ({
   mode: "idle",
   buildData: null,
 
-  hoverCell: null,
-  hoverPath: null,
+  // Establece si la construccion es disponible
+  isAvailable: true,
+  setIsAvailable: (value) => {
+    set((state: any) => ({
+      modeState: {
+        ...state.modeState,
+        isAvailable: value,
+      },
+    }));
+  },
 
   // Establece la celda hoverada en el modo de construccion
+  hoverCell: null,
   setHoverCell: (x, y) => {
     set((state: any) => ({
       modeState: {
@@ -33,12 +48,24 @@ export const createModeState = (set: any, get: any): ModeState => ({
     }));
   },
 
-  // Establece las celdas hoveradas en el modo de construccion de camino
-  setHoverPath: (path) => {
+  // Establece el path fantasma hoverado
+  previewPath: null,
+  setPreviewPath: (path) => {
     set((state: any) => ({
       modeState: {
         ...state.modeState,
-        hoverPath: path,
+        previewPath: path,
+      },
+    }));
+  },
+
+  // Establece el path fantasma luego de hacer doble click
+  roadPath: [],
+  setRoadPath: (path) => {
+    set((state: any) => ({
+      modeState: {
+        ...state.modeState,
+        roadPath: [...state.modeState.roadPath, ...path],
       },
     }));
   },
@@ -72,6 +99,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
         ...state.modeState,
         mode: "idle",
         buildData: null,
+        hoverPath: null,
+        hoverCell: null,
       },
     }));
   },
