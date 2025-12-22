@@ -1,6 +1,6 @@
 import { useEffect, useState } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
-import { canPlaceBuilding } from "../utils/canPlaceBuilding";
+import { canPlaceBuildingOnGrid } from "../utils/canPlaceBuilding";
 
 type GhostOverlayProps = {
   cellSize: number;
@@ -9,26 +9,20 @@ type GhostOverlayProps = {
 export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
   const { buildStructure } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
-  const { hoverCell, mode, buildData, startRoadBuild } = useGameStore(
-    (s) => s.modeState
-  );
+  const { mode, buildData } = useGameStore((s) => s.modeState);
+  const { hoverCell, startRoadBuild } = useGameStore((s) => s.modeState);
   const [isSpaceFree, setIsSpaceFree] = useState(false);
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
   if (mode !== "build" || !hoverCell || !buildData) return null;
 
-  // Calculamos el desplazamiento del ghost dentro del grid
+  // Posicion para cuadrar dentro del grid, estructuras con dos o mas celdas de size
   const clampedX = Math.min(hoverCell.x, grid.length - buildData.size);
   const clampedY = Math.min(hoverCell.y, grid.length - buildData.size);
 
   // Validamos si alguna celda está ocupada al mover el ghost
   useEffect(() => {
-    const canBuild = canPlaceBuilding(
-      grid,
-      buildData.size,
-      hoverCell.x,
-      hoverCell.y
-    );
+    const canBuild = canPlaceBuildingOnGrid(grid, [hoverCell], buildData.size);
     canBuild ? setIsSpaceFree(true) : setIsSpaceFree(false);
   }, [hoverCell]);
 

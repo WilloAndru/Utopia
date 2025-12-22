@@ -1,17 +1,19 @@
 import { useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import { getRoadGhostBorders } from "../utils/getRoadGhostBorders";
-import { canPlaceBuilding } from "../utils/canPlaceBuilding";
+import {
+  canPlaceBuildingOnGrid,
+  canPlaceRoad,
+} from "../utils/canPlaceBuilding";
 
 type RoadGhostOverlayProps = {
   cellSize: number;
 };
 
 export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
-  const { mode, buildData, previewPath, roadPath } = useGameStore(
-    (s) => s.modeState
-  );
+  const { mode, buildData } = useGameStore((s) => s.modeState);
   const { isAvailable, setIsAvailable } = useGameStore((s) => s.modeState);
+  const { previewPath, roadPath } = useGameStore((s) => s.modeState);
   const { buildRoad } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
   const { money } = useGameStore((s) => s.economy);
@@ -24,15 +26,14 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   useEffect(() => {
     if (!previewPath) return;
 
-    const { x, y } = previewPath!.at(-1)!; // Coordenadas del ultimo path
-
     const canBuild =
-      canPlaceBuilding(grid, buildData.size, x, y) && // Validamos que no choque con una estructura
+      canPlaceRoad(roadPath, previewPath) && // Validamos que no se genere sobre el path previo
+      canPlaceBuildingOnGrid(grid, previewPath, buildData.size) && // Validamos que no choque con una estructura
       money >= buildData.cost * currentPath!.length; // Validamos que no exeda el dinero
 
     setIsAvailable(canBuild);
 
-    // Listener para confirmar construccion
+    // Listener para confirmar construccion con enter
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
         canBuild && buildRoad(currentPath);
