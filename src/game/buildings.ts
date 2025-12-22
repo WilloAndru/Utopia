@@ -8,15 +8,15 @@ export const createBuildings = (set: any, get: any): BuildingsState => ({
   counts: {},
 
   increment: (typeId: number) => {
-    const current = get().buildings.counts[typeId] ?? 0;
-    const nextId = current + 1;
+    const quantity = get().buildings.counts[typeId] ?? 0; // Obtiene la cantidad de estructuras de ese tipo
+    const nextId = quantity + 1;
 
     set((state: any) => ({
       buildings: {
         ...state.buildings,
         counts: {
           ...state.buildings.counts,
-          [typeId]: nextId,
+          [typeId]: nextId, // Cambia la cantidad a +1
         },
       },
     }));

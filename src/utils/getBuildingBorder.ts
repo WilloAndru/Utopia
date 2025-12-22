@@ -1,28 +1,26 @@
 import type { CellModel } from "../game/models";
 
-// Funcion para generar los strings de los border con borde de las estructuras
 export function getBuildingBorder(
   grid: CellModel[][],
   x: number,
   y: number
 ): string {
-  const cell = grid[x][y];
-  if (!cell.building) return ""; // Si la celda no es una estructura no devolvemos borde
+  const building = grid[x][y]?.building;
+  if (!building) return "";
 
-  const id = cell.building.id;
+  // Comparamos que la celda vecina tenga el mismo nombre y el mismo id
+  const sameBuilding = (nx: number, ny: number) => {
+    const other = grid[nx]?.[ny]?.building;
+    return other?.id === building.id && other?.name === building.name;
+  };
 
-  // Si es false significa que la celda vecina no es del mismo edificio, entonces es una celda con borde
-  const top = grid[x - 1]?.[y].building?.id === id;
-  const bottom = grid[x + 1]?.[y].building?.id === id;
-  const left = grid[x]?.[y - 1].building?.id === id;
-  const right = grid[x]?.[y + 1].building?.id === id;
-
+  // Si la vecina no es del mismo edificio, entonces tiene borde
   return [
-    !top && "border-t",
-    !bottom && "border-b",
-    !left && "border-l",
-    !right && "border-r",
+    !sameBuilding(x - 1, y) && "border-t",
+    !sameBuilding(x + 1, y) && "border-b",
+    !sameBuilding(x, y - 1) && "border-l",
+    !sameBuilding(x, y + 1) && "border-r",
   ]
-    .filter(Boolean) // Quitamos los boleanos
-    .join(" "); // Devolvemos string en formato tailwind
+    .filter(Boolean)
+    .join(" ");
 }
