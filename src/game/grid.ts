@@ -1,4 +1,5 @@
 import { BUILDINGS } from "../data/buildings";
+import { TERRAINOBJECTS } from "../data/terrainObject";
 import type { CellModel, BuildingModel } from "./models";
 
 export type Grid = {
@@ -30,7 +31,6 @@ export const createGrid = (set: any, get: any): Grid => ({
     const castleSize = 6;
     const start = Math.floor(size / 2) - Math.floor(castleSize / 2); // Pos inicial
     const end = start + castleSize; // Pos final
-
     for (let x = start; x < end; x++) {
       for (let y = start; y < end; y++) {
         // Ignoramos las esquinas
@@ -47,6 +47,34 @@ export const createGrid = (set: any, get: any): Grid => ({
           };
         }
       }
+    }
+
+    // Creamos los recursos iniciales
+    const freeCoords = [];
+    for (let x = 0; x < size; x++) {
+      // Creamos una lista con las coordenadas no coupadas por el castillo
+      for (let y = 0; y < size; y++) {
+        if (!grid[x][y].building) {
+          freeCoords.push({ x, y });
+        }
+      }
+    }
+
+    // Fisher–Yates sobre coordenadas para obtenerlas aleatorias
+    for (let i = freeCoords.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [freeCoords[i], freeCoords[j]] = [freeCoords[j], freeCoords[i]];
+    }
+
+    // Colocamos 30 recursos, la mitad arboles la otra rocas
+    const resourceCount = 30;
+    for (let i = 0; i < resourceCount; i++) {
+      const { x, y } = freeCoords[i];
+      const buildData =
+        i < resourceCount / 2 ? TERRAINOBJECTS.tree : TERRAINOBJECTS.rock;
+      grid[x][y].building = {
+        ...buildData,
+      };
     }
 
     return grid;

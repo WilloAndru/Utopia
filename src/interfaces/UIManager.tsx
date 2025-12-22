@@ -3,8 +3,8 @@ import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
 
 export default function UIManager() {
-  const nameUI = useGameStore((s) => s.typeOpenUI);
-  const clearInterface = useGameStore((s) => s.clearUI);
+  const { nameUI } = useGameStore((s) => s);
+  const { clearUI } = useGameStore((s) => s);
   const uiRef = useRef<HTMLDivElement>(null);
 
   // Detecta click en el DOM, para cerrar o mantener la interfaz
@@ -16,11 +16,11 @@ export default function UIManager() {
       // Click dentro de la UI
       if (uiRef.current?.contains(target)) return;
 
-      // Click en un trigger
+      // Click en un trigger (para que botones que tambien abran la interfaz no bugeen)
       if (target.closest("[data-ui-trigger]")) return;
 
       // Click en cualquier otro lugar => cerrar
-      clearInterface();
+      clearUI();
     };
 
     document.addEventListener("mousedown", handleClick);

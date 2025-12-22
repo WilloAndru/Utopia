@@ -15,7 +15,7 @@ export type GameState = {
   buildRoad: (path: { x: number; y: number }[]) => void;
 
   idOpenUI: number | null;
-  typeOpenUI: string | null;
+  nameUI: string | null;
   openUI: (id: number, name: string) => void;
   clearUI: () => void;
 };
@@ -28,7 +28,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildings: createBuildings(set, get),
 
   idOpenUI: null,
-  typeOpenUI: null,
+  nameUI: null,
 
   // Construccion de edificio
   buildStructure: (x, y, building) => {
@@ -71,7 +71,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (idOpenUI === id) {
       set({
         idOpenUI: null,
-        typeOpenUI: null,
+        nameUI: null,
       });
       return;
     }
@@ -79,7 +79,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Si es otro edificio → abrir su interfaz
     set({
       idOpenUI: id,
-      typeOpenUI: name,
+      nameUI: name,
     });
   },
 
@@ -87,7 +87,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   clearUI: () => {
     set({
       idOpenUI: null,
-      typeOpenUI: null,
+      nameUI: null,
     });
   },
 }));

@@ -3,10 +3,11 @@ export type BuildingModel = {
   name: string;
   level?: number;
   cost: number;
-  size: number;
+  workTime: number;
   color: string;
+  size: number;
   deletable?: boolean;
-  usesInstanceId: boolean;
+  usesInstanceId?: boolean;
 };
 
 export type CellModel = {
