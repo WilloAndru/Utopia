@@ -11,14 +11,14 @@ export default function Store() {
   }));
 
   return (
-    <main className="grid grid-cols-2 auto-rows-[149px] h-full gap-2 w-full overflow-y-auto">
+    <main className="grid grid-cols-4 gap-2">
       {materials.map((m, i) => (
         <div
           key={i}
-          className="rounded-xl px-4 py-2 flex flex-col gap-1 items-center justify-between border-3 border-emerald-700"
+          className="rounded-xl px-4 py-2 flex items-center justify-around border-3 border-emerald-700 bg-emerald-300"
         >
-          <img className="w-10" src={`/${m.type}.png`} alt={m.type} />
-          {m.amount}
+          <img className="w-8" src={`/${m.type}.png`} alt={m.type} />
+          <h6>{m.amount}</h6>
         </div>
       ))}
     </main>

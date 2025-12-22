@@ -8,11 +8,14 @@ export type BuildingData = {
   deletable: boolean;
   usesInstanceId: boolean;
   requiredResources: Partial<Record<ResourceType, number>>;
+  effects?: BuildingEffect;
 };
 
-type ResourceType = "madera" | "piedra";
+export type ResourceType = "poblacion" | "madera" | "piedra";
 
 export const resourceKeys: ResourceType[] = ["madera", "piedra"];
+
+export type BuildingEffect = Partial<Record<ResourceType, number>>;
 
 export const BUILDINGS: Record<string, BuildingData> = {
   castle: {
@@ -53,6 +56,9 @@ export const BUILDINGS: Record<string, BuildingData> = {
     requiredResources: {
       madera: 1,
       piedra: 1,
+    },
+    effects: {
+      poblacion: 5,
     },
   },
 };

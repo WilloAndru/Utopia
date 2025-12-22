@@ -1,3 +1,5 @@
+import type { BuildingEffect } from "../data/buildings";
+
 export type BuildingModel = {
   id: number;
   name: string;
@@ -8,6 +10,7 @@ export type BuildingModel = {
   size: number;
   deletable?: boolean;
   usesInstanceId?: boolean;
+  effects?: BuildingEffect;
 };
 
 export type CellModel = {

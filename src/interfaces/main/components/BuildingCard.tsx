@@ -1,6 +1,6 @@
 import { useState } from "preact/hooks";
 import { useGameStore } from "../../../game/gameStore";
-import type { BuildingData } from "../../../data/buildings";
+import type { BuildingData, ResourceType } from "../../../data/buildings";
 
 type BuildingCardProps = {
   build: BuildingData;
@@ -9,8 +9,20 @@ type BuildingCardProps = {
 export default function BuildingCard({ build }: BuildingCardProps) {
   const { clearUI } = useGameStore((s) => s);
   const { startBuild } = useGameStore((s) => s.modeState);
-  const { money } = useGameStore((s) => s.resources);
+  const resources = useGameStore((s) => s.resources);
   const [isSeeMore, setIsSeeMore] = useState(false);
+
+  // Hacemos los calculos para comprobar que la construccion se puede construir
+  const handleIsAvailable = () => {
+    // Si no hay suficiente dinero
+    if (resources.money < build.cost) return false;
+
+    // Si no hay suficientes recursos
+    return Object.entries(build.requiredResources).every(
+      ([key, value]) => resources[key as ResourceType] >= value
+    );
+  };
+  const isAvailable = handleIsAvailable();
 
   // Funcion al dar click en una tarjeta para construir
   const handleBuild = () => {
@@ -23,12 +35,12 @@ export default function BuildingCard({ build }: BuildingCardProps) {
       className={`
            rounded-xl px-4 py-2 flex flex-col gap-1 items-center justify-between border-3 border-emerald-700
             ${
-              money >= build.cost // Mostramos disponibilidad de la estructura
+              isAvailable // Mostramos disponibilidad de la estructura
                 ? "bg-emerald-300 hover:bg-emerald-200"
                 : "bg-gray-400 text-gray-800"
             }
         `}
-      onClick={money >= build.cost ? handleBuild : undefined} // Validamos que halla dinero para construir
+      onClick={isAvailable ? handleBuild : undefined}
     >
       {/* Nombre de la estructura */}
       <h6>{build.name}</h6>
@@ -52,10 +64,20 @@ export default function BuildingCard({ build }: BuildingCardProps) {
         </div>
       ) : (
         //Tarjeta que muestra la info detallada
-        <div className="flex flex-col gap-1 items-center text-[0.8rem]">
+        <div className="flex flex-col gap-2 items-center text-[0.8rem]">
+          {/* Tamaño del edificio */}
           <h6>
             Tamaño: {build.size}x{build.size}
           </h6>
+          {/* Materiales necesarios para construir */}
+          <div className="flex gap-3">
+            {Object.entries(build.requiredResources).map(([key, value]) => (
+              <div className="flex gap-1">
+                <img className="w-4" src={`/${key}.png`} alt={key} />
+                <h6>{value}</h6>
+              </div>
+            ))}
+          </div>
         </div>
       )}
       {/* Boton para ver detalles */}

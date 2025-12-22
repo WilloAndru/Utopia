@@ -34,7 +34,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
-    const { spendMoney } = get().resources;
+    const { spendMoney, increasePopulation } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
@@ -42,6 +42,10 @@ export const useGameStore = create<GameState>((set, get) => ({
       id: get().buildings.increment(building.id),
     };
 
+    // Si de efecto aumenta la poblacion aumentamos la poblacion
+    if (building.effects?.poblacion) {
+      increasePopulation(building.effects.poblacion);
+    }
     spendMoney(building.cost);
     placeStructure(x, y, newBuilding);
     cancelState();
