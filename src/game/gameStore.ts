@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createGrid, type Grid } from "./grid";
 import { createModeState, type ModeState } from "./mode";
-import { createEconomy, type Economy } from "./economy";
+import { createResources, type Resources } from "./resources";
 import { createBuildings, type BuildingsState } from "./buildings";
 import type { BuildingModel } from "./models";
 
 export type GameState = {
-  economy: Economy;
+  resources: Resources;
   grid: Grid;
   modeState: ModeState;
 
@@ -22,7 +22,7 @@ export type GameState = {
 
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
-  economy: createEconomy(set),
+  resources: createResources(set),
   grid: createGrid(set, get),
   modeState: createModeState(set, get),
   buildings: createBuildings(set, get),
@@ -34,7 +34,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
-    const { spendMoney } = get().economy;
+    const { spendMoney } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
@@ -51,7 +51,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildRoad: (currentPath) => {
     const { placeRoad } = get().grid;
     const { buildData, cancelState } = get().modeState;
-    const { spendMoney } = get().economy;
+    const { spendMoney } = get().resources;
 
     spendMoney(buildData!.cost * currentPath.length);
     placeRoad(currentPath, buildData!);

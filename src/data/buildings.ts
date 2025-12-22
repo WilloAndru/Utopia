@@ -7,7 +7,12 @@ export type BuildingData = {
   size: number;
   deletable: boolean;
   usesInstanceId: boolean;
+  requiredResources: Partial<Record<ResourceType, number>>;
 };
+
+type ResourceType = "madera" | "piedra";
+
+export const resourceKeys: ResourceType[] = ["madera", "piedra"];
 
 export const BUILDINGS: Record<string, BuildingData> = {
   castle: {
@@ -19,6 +24,7 @@ export const BUILDINGS: Record<string, BuildingData> = {
     size: 0,
     deletable: false,
     usesInstanceId: true,
+    requiredResources: {},
   },
 
   path: {
@@ -30,6 +36,9 @@ export const BUILDINGS: Record<string, BuildingData> = {
     size: 1,
     deletable: true,
     usesInstanceId: false,
+    requiredResources: {
+      piedra: 1,
+    },
   },
 
   house: {
@@ -41,5 +50,9 @@ export const BUILDINGS: Record<string, BuildingData> = {
     size: 1,
     deletable: true,
     usesInstanceId: true,
+    requiredResources: {
+      madera: 1,
+      piedra: 1,
+    },
   },
 };

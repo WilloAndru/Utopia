@@ -9,7 +9,7 @@ import { useGameStore } from "../../game/gameStore";
 const SECTIONS = {
   Construcción: Building,
   Almacen: Store,
-  Población: Population,
+  Poblacion: Population,
 } as const;
 type SectionKey = keyof typeof SECTIONS;
 

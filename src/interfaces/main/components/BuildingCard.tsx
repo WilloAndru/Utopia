@@ -9,7 +9,7 @@ type BuildingCardProps = {
 export default function BuildingCard({ build }: BuildingCardProps) {
   const { clearUI } = useGameStore((s) => s);
   const { startBuild } = useGameStore((s) => s.modeState);
-  const { money } = useGameStore((s) => s.economy);
+  const { money } = useGameStore((s) => s.resources);
   const [isSeeMore, setIsSeeMore] = useState(false);
 
   // Funcion al dar click en una tarjeta para construir
@@ -46,7 +46,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
           />
           {/* Costo de la estructura */}
           <div className="flex gap-2 items-center">
-            <img className="w-5" src="coin.png" alt="Coin" />
+            <img className="w-5" src="/moneda.png" alt="modena" />
             <p className="font-bold">{build.cost}</p>
           </div>
         </div>

@@ -16,7 +16,7 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   const { previewPath, roadPath } = useGameStore((s) => s.modeState);
   const { buildRoad } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
-  const { money } = useGameStore((s) => s.economy);
+  const { money } = useGameStore((s) => s.resources);
   const currentPath = [...(roadPath ?? []), ...(previewPath ?? [])];
 
   // Si no estamos en modo de construccion, no se muestra el fantasma

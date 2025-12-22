@@ -4,7 +4,7 @@ import { LuMenu } from "react-icons/lu";
 
 export default function Header() {
   const { openUI } = useGameStore((s) => s);
-  const { money } = useGameStore((s) => s.economy);
+  const { money, poblacion } = useGameStore((s) => s.resources);
   const castleData = BUILDINGS.castle;
 
   return (
@@ -18,8 +18,13 @@ export default function Header() {
       <div className="flex gap-2">
         {/* Monedero */}
         <div className="px-4 py-2 border-4 border-emerald-500 rounded-xl flex gap-2">
-          <img className="w-6" src="/coin.png" alt="coin" />
+          <img className="w-6" src="/moneda.png" alt="moneda" />
           <h6>{money}</h6>
+        </div>
+        {/* poblacion */}
+        <div className="px-4 py-2 border-4 border-emerald-500 rounded-xl flex gap-2">
+          <img className="w-6" src="/poblacion.png" alt="poblacion" />
+          <h6>{poblacion}</h6>
         </div>
         {/* Boton de menu */}
         <button
