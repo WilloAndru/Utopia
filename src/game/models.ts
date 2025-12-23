@@ -1,4 +1,5 @@
 import type { BuildingEffect } from "../data/buildings";
+import type { ResourceType } from "../data/buildings";
 
 export type BuildingModel = {
   id: number;
@@ -9,6 +10,7 @@ export type BuildingModel = {
   size: number;
   deletable?: boolean;
   usesInstanceId?: boolean;
+  requiredResources: Partial<Record<ResourceType, number>>;
   effects?: BuildingEffect;
 };
 

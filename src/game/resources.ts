@@ -1,3 +1,5 @@
+import type { ResourceType } from "../data/buildings";
+
 export type Resources = {
   money: number;
   poblacion: number;
@@ -5,13 +7,14 @@ export type Resources = {
   piedra: number;
   spendMoney: (amount: number) => void;
   increasePopulation: (amount: number) => void;
+  spendMaterials: (materilas: Partial<Record<ResourceType, number>>[]) => void;
 };
 
 export const createResources = (set: any): Resources => ({
-  money: 10,
+  money: 20,
   poblacion: 1,
-  madera: 0,
-  piedra: 1,
+  madera: 2,
+  piedra: 2,
 
   // Funcion que gasta dinero
   spendMoney: (amount) =>
@@ -30,4 +33,19 @@ export const createResources = (set: any): Resources => ({
         poblacion: state.resources.poblacion + amount,
       },
     })),
+
+  // Funcion para gastar materiales
+  spendMaterials: (materials) =>
+    set((state: any) => {
+      const resources = { ...state.resources };
+
+      materials.forEach((material) => {
+        Object.entries(material).forEach(([key, value]) => {
+          resources[key as ResourceType] -= value!;
+        });
+      });
+      console.log(resources);
+
+      return { resources };
+    }),
 });

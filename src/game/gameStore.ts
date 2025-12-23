@@ -29,7 +29,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
-    const { spendMoney, increasePopulation } = get().resources;
+    const { spendMoney, spendMaterials, increasePopulation } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
@@ -42,6 +42,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       increasePopulation(building.effects.poblacion);
     }
     spendMoney(building.cost);
+    spendMaterials([building.requiredResources]);
     placeStructure(x, y, newBuilding);
     cancelState();
   },
@@ -50,9 +51,18 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildRoad: (currentPath) => {
     const { placeRoad } = get().grid;
     const { buildData, cancelState } = get().modeState;
-    const { spendMoney } = get().resources;
+    const { spendMoney, spendMaterials } = get().resources;
+
+    // Pasamos la lista de materiales multiplicada por la longitud del path
+    const scaledMaterials = Object.fromEntries(
+      Object.entries(buildData!.requiredResources).map(([key, value]) => [
+        key,
+        value * currentPath.length,
+      ])
+    );
 
     spendMoney(buildData!.cost * currentPath.length);
+    spendMaterials([scaledMaterials]);
     placeRoad(currentPath, buildData!);
     cancelState();
   },
