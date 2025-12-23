@@ -44,7 +44,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
       startBuild(build);
       clearUI();
     }
-    // Si falta lago mandamos mensaje
+    // Si falta algo mandamos mensaje
     else {
       setMessage(isAvailable.message);
     }

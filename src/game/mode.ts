@@ -5,8 +5,8 @@ export type ModeState = {
   mode: GameMode;
   buildData: BuildingData | null;
 
-  isAvailable: boolean;
-  setIsAvailable: (value: boolean) => void;
+  isAvailable: { message?: string; value: boolean };
+  setIsAvailable: (available: { message?: string; value: boolean }) => void;
 
   hoverCell: { x: number; y: number } | null;
   setHoverCell: (x: number, y: number) => void;
@@ -27,14 +27,17 @@ export const createModeState = (set: any, get: any): ModeState => ({
   buildData: null,
 
   // Establece si la construccion es disponible
-  isAvailable: true,
-  setIsAvailable: (value) =>
+  isAvailable: { value: true },
+  setIsAvailable: (available) =>
     set((state: any) => {
-      if (state.modeState.isAvailable === value) return state;
+      if (state.modeState.isAvailable === available) return state;
       return {
         modeState: {
           ...state.modeState,
-          isAvailable: value,
+          isAvailable: {
+            message: available.message,
+            value: available.value,
+          },
         },
       };
     }),

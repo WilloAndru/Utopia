@@ -28,7 +28,7 @@ export const createUI = (set: any, get: any): UIState => ({
 
     // Si hay un estado activo distinto de idle, lo cancelamos
     if (modeState.mode !== "idle") {
-      modeState.cancelState();
+      modeState.moneda();
     }
 
     // Si es otro edificio → abrir su interfaz

@@ -44,7 +44,6 @@ export const createResources = (set: any): Resources => ({
           resources[key as ResourceType] -= value!;
         });
       });
-      console.log(resources);
 
       return { resources };
     }),

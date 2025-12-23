@@ -8,7 +8,7 @@ type GridProps = {
 
 export default function Grid({ cellSize }: GridProps) {
   const { grid } = useGameStore((s) => s.grid);
-  const { openUI } = useGameStore((s) => s.ui);
+  const { openUI, setMessage } = useGameStore((s) => s.ui);
   const { mode, hoverCell, setHoverCell } = useGameStore((s) => s.modeState);
   const { previewPath, setPreviewPath, setRoadPath } = useGameStore(
     (s) => s.modeState
@@ -52,10 +52,14 @@ export default function Grid({ cellSize }: GridProps) {
               onMouseEnter={() => handleHover(x, y)}
               onClick={() => {
                 // Se guarda el previewPath en roadPath y se continua con el modo buildRoad
-                if (mode === "buildRoad" && previewPath && isAvailable) {
-                  setRoadPath(previewPath.slice(0, -1));
-                  setHoverCell(x, y);
-                  setPreviewPath([{ x, y }]);
+                if (mode === "buildRoad" && previewPath) {
+                  if (isAvailable.value) {
+                    setRoadPath(previewPath.slice(0, -1));
+                    setHoverCell(x, y);
+                    setPreviewPath([{ x, y }]);
+                  } else {
+                    setMessage(isAvailable.message ?? null);
+                  }
                 }
                 if (cell.building) openUI(cell.building.id, cell.building.name);
               }}

@@ -16,7 +16,8 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   const { previewPath, roadPath } = useGameStore((s) => s.modeState);
   const { buildRoad } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
-  const { money } = useGameStore((s) => s.resources);
+  const { money, piedra } = useGameStore((s) => s.resources);
+  const { setMessage } = useGameStore((s) => s.ui);
   const currentPath = [...(roadPath ?? []), ...(previewPath ?? [])];
 
   // Si no estamos en modo de construccion, no se muestra el fantasma
@@ -26,22 +27,43 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
   useEffect(() => {
     if (!previewPath) return;
 
-    const canBuild =
-      canPlaceRoad(roadPath, previewPath) && // Validamos que no se genere sobre el path previo
-      canPlaceBuildingOnGrid(grid, previewPath, buildData.size) && // Validamos que no choque con una estructura
-      money >= buildData.cost * currentPath!.length; // Validamos que no exeda el dinero
+    // Validamos que el path se pueda construir
+    const validateRoadBuild = () => {
+      if (
+        !canPlaceRoad(roadPath, previewPath) ||
+        !canPlaceBuildingOnGrid(grid, previewPath, buildData.size)
+      ) {
+        return { message: "Camino inválido", value: false };
+      }
+
+      const totalCost = buildData.cost * currentPath.length;
+      if (money < totalCost) {
+        return { message: "Monedas insuficientes", value: false };
+      }
+
+      const requiredStone =
+        (buildData.requiredResources?.piedra ?? 0) * currentPath.length;
+      if (piedra < requiredStone) {
+        return { message: "Piedra insuficiente", value: false };
+      }
+
+      return { value: true };
+    };
+    const canBuild = validateRoadBuild();
 
     setIsAvailable(canBuild);
 
     // Listener para confirmar construccion con enter
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter") {
-        canBuild && buildRoad(currentPath);
+        canBuild.value
+          ? buildRoad(currentPath)
+          : setMessage(canBuild.message ?? null);
       }
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [currentPath]);
+  }, [previewPath]);
 
   return (
     <>
@@ -50,7 +72,7 @@ export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
           <div
             key={`${cell.x}-${cell.y}`}
             className={`absolute top-0 left-0 border ml-px mt-px opacity-75 pointer-events-none
-              ${isAvailable ? buildData.color : "bg-red-600"}
+              ${isAvailable.value ? buildData.color : "bg-red-600"}
               ${getRoadGhostBorders(currentPath, cell)}
             `}
             style={{
