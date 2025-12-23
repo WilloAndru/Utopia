@@ -5,7 +5,6 @@ export type BuildingModel = {
   name: string;
   level?: number;
   cost: number;
-  workTime: number;
   color: string;
   size: number;
   deletable?: boolean;

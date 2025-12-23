@@ -7,7 +7,7 @@ type BuildingCardProps = {
 };
 
 export default function BuildingCard({ build }: BuildingCardProps) {
-  const { clearUI } = useGameStore((s) => s);
+  const { clearUI } = useGameStore((s) => s.ui);
   const { startBuild } = useGameStore((s) => s.modeState);
   const resources = useGameStore((s) => s.resources);
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -74,7 +74,7 @@ export default function BuildingCard({ build }: BuildingCardProps) {
             {Object.entries(build.requiredResources).map(([key, value]) => (
               <div className="flex gap-1">
                 <img className="w-4" src={`/${key}.png`} alt={key} />
-                <h6>{value}</h6>
+                <h6 className="">{value}</h6>
               </div>
             ))}
           </div>

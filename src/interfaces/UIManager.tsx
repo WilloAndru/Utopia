@@ -3,8 +3,7 @@ import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
 
 export default function UIManager() {
-  const { nameUI } = useGameStore((s) => s);
-  const { clearUI } = useGameStore((s) => s);
+  const { nameUI, clearUI } = useGameStore((s) => s.ui);
   const uiRef = useRef<HTMLDivElement>(null);
 
   // Detecta click en el DOM, para cerrar o mantener la interfaz

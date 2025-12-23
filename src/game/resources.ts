@@ -10,7 +10,7 @@ export type Resources = {
 export const createResources = (set: any): Resources => ({
   money: 10,
   poblacion: 1,
-  madera: 1,
+  madera: 0,
   piedra: 1,
 
   // Funcion que gasta dinero

@@ -3,7 +3,7 @@ import { useGameStore } from "../game/gameStore";
 import { LuMenu } from "react-icons/lu";
 
 export default function Header() {
-  const { openUI } = useGameStore((s) => s);
+  const { openUI } = useGameStore((s) => s.ui);
   const { money, poblacion } = useGameStore((s) => s.resources);
   const castleData = BUILDINGS.castle;
 

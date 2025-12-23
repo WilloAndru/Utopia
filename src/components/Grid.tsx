@@ -8,7 +8,7 @@ type GridProps = {
 
 export default function Grid({ cellSize }: GridProps) {
   const { grid } = useGameStore((s) => s.grid);
-  const { openUI } = useGameStore((s) => s);
+  const { openUI } = useGameStore((s) => s.ui);
   const { mode, hoverCell, setHoverCell } = useGameStore((s) => s.modeState);
   const { previewPath, setPreviewPath, setRoadPath } = useGameStore(
     (s) => s.modeState

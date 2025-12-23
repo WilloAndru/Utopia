@@ -19,7 +19,7 @@ export default function MainMenu() {
     useState<SectionKey>("Construcción");
   const ActiveComponent = SECTIONS[activeSection];
 
-  const clearUI = useGameStore((s) => s.clearUI); // Funcion para cerrar interfaz
+  const { clearUI } = useGameStore((s) => s.ui); // Funcion para cerrar interfaz
 
   return (
     <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-190 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
@@ -56,7 +56,7 @@ export default function MainMenu() {
           ))}
         </nav>
         {/* Interfaz mutable */}
-        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-120">
+        <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-81">
           <ActiveComponent />
         </section>
       </main>

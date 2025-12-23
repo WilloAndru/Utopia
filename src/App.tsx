@@ -6,10 +6,11 @@ import { useEffect } from "preact/hooks";
 import GhostOverlay from "./components/GhostOverlay";
 import RoadGhostOverlay from "./components/RoadGhostOverlay";
 import { BUILDINGS } from "./data/buildings";
+import MessageBar from "./components/MessageBar";
 
 export function App() {
   const cellSize = 10;
-  const clearUI = useGameStore((s) => s.clearUI);
+  const { clearUI } = useGameStore((s) => s);
   const { cancelState, startBuild } = useGameStore((s) => s.modeState);
 
   // Detecta cuando se usa Esc para cerrar interfaces o eventos
@@ -30,7 +31,8 @@ export function App() {
   return (
     <main className="h-screen bg-blue-400 grid place-items-center">
       <Header />
-      <div className="relative">
+      <MessageBar />
+      <div className="relative top-6">
         <Grid cellSize={cellSize} />
         <GhostOverlay cellSize={cellSize} />
         <RoadGhostOverlay cellSize={cellSize} />
