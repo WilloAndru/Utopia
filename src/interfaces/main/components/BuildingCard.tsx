@@ -7,7 +7,7 @@ type BuildingCardProps = {
 };
 
 export default function BuildingCard({ build }: BuildingCardProps) {
-  const { clearUI } = useGameStore((s) => s.ui);
+  const { setMessage, clearUI } = useGameStore((s) => s.ui);
   const { startBuild } = useGameStore((s) => s.modeState);
   const resources = useGameStore((s) => s.resources);
   const [isSeeMore, setIsSeeMore] = useState(false);
@@ -15,19 +15,39 @@ export default function BuildingCard({ build }: BuildingCardProps) {
   // Hacemos los calculos para comprobar que la construccion se puede construir
   const handleIsAvailable = () => {
     // Si no hay suficiente dinero
-    if (resources.money < build.cost) return false;
-
+    if (resources.money < build.cost) {
+      return {
+        message: "Monedas insuficientes",
+        value: false,
+      };
+    }
     // Si no hay suficientes recursos
-    return Object.entries(build.requiredResources).every(
-      ([key, value]) => resources[key as ResourceType] >= value
+    const missingResource = Object.entries(build.requiredResources).find(
+      ([key, value]) => resources[key as ResourceType] < value
     );
+    if (missingResource) {
+      const [key] = missingResource;
+      return {
+        message: `${key.charAt(0).toUpperCase() + key.slice(1)} insuficiente`,
+        value: false,
+      };
+    }
+    // Si todo esta disponible
+    return { message: "", value: true };
   };
   const isAvailable = handleIsAvailable();
 
   // Funcion al dar click en una tarjeta para construir
   const handleBuild = () => {
-    startBuild(build);
-    clearUI();
+    // Si esta todo correcto
+    if (isAvailable.value) {
+      startBuild(build);
+      clearUI();
+    }
+    // Si falta lago mandamos mensaje
+    else {
+      setMessage(isAvailable.message);
+    }
   };
 
   return (
@@ -35,12 +55,12 @@ export default function BuildingCard({ build }: BuildingCardProps) {
       className={`
            rounded-xl px-4 py-2 flex flex-col gap-1 items-center justify-between border-3 border-emerald-700
             ${
-              isAvailable // Mostramos disponibilidad de la estructura
+              isAvailable.value // Mostramos disponibilidad de la estructura
                 ? "bg-emerald-300 hover:bg-emerald-200"
                 : "bg-gray-400 text-gray-800"
             }
         `}
-      onClick={isAvailable ? handleBuild : undefined}
+      onClick={handleBuild}
     >
       {/* Nombre de la estructura */}
       <h6>{build.name}</h6>
