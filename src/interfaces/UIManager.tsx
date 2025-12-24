@@ -1,9 +1,10 @@
 import { useRef, useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
+import ResourceUI from "./resources/ResourceUI";
 
 export default function UIManager() {
-  const { nameUI, clearUI } = useGameStore((s) => s.ui);
+  const { idOpenUI, nameUI, clearUI } = useGameStore((s) => s.ui);
   const uiRef = useRef<HTMLDivElement>(null);
 
   // Detecta click en el DOM, para cerrar o mantener la interfaz
@@ -33,6 +34,10 @@ export default function UIManager() {
   switch (nameUI) {
     case "Castillo":
       content = <MainMenu />;
+      break;
+    case "Arbol":
+    case "Roca":
+      content = <ResourceUI name={nameUI} />;
       break;
   }
 

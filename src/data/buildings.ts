@@ -32,7 +32,7 @@ export const BUILDINGS: Record<string, BuildingData> = {
     id: 1,
     name: "Camino",
     cost: 1,
-    color: "bg-gray-400",
+    color: "bg-gray-300",
     size: 1,
     deletable: true,
     usesInstanceId: false,
