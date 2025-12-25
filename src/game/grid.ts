@@ -13,6 +13,7 @@ export type Grid = {
     path: { x: number; y: number }[],
     building: BuildingModel
   ) => void;
+  deleteObject: (startX: number, startY: number) => void;
 };
 
 export const createGrid = (set: any, get: any): Grid => ({
@@ -111,6 +112,23 @@ export const createGrid = (set: any, get: any): Grid => ({
       path.map((cell) => {
         newGrid[cell.x][cell.y].building = building;
       });
+
+      return {
+        grid: {
+          ...state.grid,
+          grid: newGrid,
+        },
+      };
+    }),
+
+  // Eliminamos obstaculo
+  deleteObject: (startX, startY) =>
+    set((state: any) => {
+      const newGrid = state.grid.grid.map((row: CellModel[]) =>
+        row.map((cell) => ({ ...cell }))
+      );
+
+      newGrid[startX][startY].building = null;
 
       return {
         grid: {

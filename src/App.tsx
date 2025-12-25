@@ -36,7 +36,7 @@ export function App() {
         <Grid cellSize={cellSize} />
         <GhostOverlay cellSize={cellSize} />
         <RoadGhostOverlay cellSize={cellSize} />
-        <UIManager />
+        <UIManager cellSize={cellSize} />
       </div>
     </main>
   );

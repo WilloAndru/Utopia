@@ -61,7 +61,10 @@ export default function Grid({ cellSize }: GridProps) {
                     setMessage(isAvailable.message ?? null);
                   }
                 }
-                if (cell.building) openUI(cell.building.id, cell.building.name);
+                if (cell.building) {
+                  setHoverCell(x, y);
+                  openUI(cell.building.id, cell.building.name);
+                }
               }}
             />
           );

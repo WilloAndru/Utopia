@@ -3,7 +3,11 @@ import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
 import ResourceUI from "./resources/ResourceUI";
 
-export default function UIManager() {
+type UIManagerProps = {
+  cellSize: number;
+};
+
+export default function UIManager({ cellSize }: UIManagerProps) {
   const { idOpenUI, nameUI, clearUI } = useGameStore((s) => s.ui);
   const uiRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +41,7 @@ export default function UIManager() {
       break;
     case "Arbol":
     case "Roca":
-      content = <ResourceUI name={nameUI} />;
+      content = <ResourceUI name={nameUI} cellSize={cellSize} />;
       break;
   }
 

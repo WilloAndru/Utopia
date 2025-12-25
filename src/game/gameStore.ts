@@ -5,6 +5,7 @@ import { createResources, type Resources } from "./resources";
 import { createBuildings, type BuildingsState } from "./buildings";
 import { createUI, type UIState } from "./ui";
 import type { BuildingModel } from "./models";
+import type { TerrainObjectData } from "../data/terrainObject";
 
 export type GameState = {
   resources: Resources;
@@ -13,6 +14,11 @@ export type GameState = {
   ui: UIState;
 
   buildings: BuildingsState;
+  deleteTerrainObject: (
+    x: number,
+    y: number,
+    object: TerrainObjectData
+  ) => void;
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
   buildRoad: (path: { x: number; y: number }[]) => void;
 };
@@ -45,6 +51,13 @@ export const useGameStore = create<GameState>((set, get) => ({
     spendMaterials([building.requiredResources]);
     placeStructure(x, y, newBuilding);
     cancelState();
+  },
+
+  // Eliminacion de obstaculo del terreno
+  deleteTerrainObject: (x, y, terrainObject) => {
+    const { deleteObject } = get().grid;
+    const { cancelState } = get().modeState;
+    const { spendMoney, spendMaterials } = get().resources;
   },
 
   // Construccion de carretera
