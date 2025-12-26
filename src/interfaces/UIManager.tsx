@@ -8,7 +8,7 @@ type UIManagerProps = {
 };
 
 export default function UIManager({ cellSize }: UIManagerProps) {
-  const { idOpenUI, nameUI, clearUI } = useGameStore((s) => s.ui);
+  const { nameUI, clearUI } = useGameStore((s) => s.ui);
   const uiRef = useRef<HTMLDivElement>(null);
 
   // Detecta click en el DOM, para cerrar o mantener la interfaz

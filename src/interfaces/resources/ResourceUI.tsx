@@ -21,8 +21,8 @@ export default function ResourceUI({ name, cellSize }: ResourceProps) {
     <main
       className={`py-2 px-3 rounded-xl border-3 border-emerald-700 w-fit flex flex-col gap-1 items-center absolute top-0 left-0 ${object.color}`}
       style={{
-        transform: `translate(${hoverCell!.y * cellSize}px, 
-        ${hoverCell!.x * cellSize}px)`,
+        transform: `translate(${(hoverCell!.y + 1) * cellSize}px, 
+        ${(hoverCell!.x + 1) * cellSize}px)`,
       }}
     >
       <h6>{object.name}</h6>

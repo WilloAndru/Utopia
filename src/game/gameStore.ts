@@ -35,7 +35,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
-    const { spendMoney, spendMaterials, increasePopulation } = get().resources;
+    const { spendMoney, editMaterials, increasePopulation } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
@@ -48,7 +48,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       increasePopulation(building.effects.poblacion);
     }
     spendMoney(building.cost);
-    spendMaterials([building.requiredResources]);
+    editMaterials([building.requiredResources], true);
     placeStructure(x, y, newBuilding);
     cancelState();
   },
@@ -56,15 +56,24 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Eliminacion de obstaculo del terreno
   deleteTerrainObject: (x, y, terrainObject) => {
     const { deleteObject } = get().grid;
-    const { cancelState } = get().modeState;
-    const { spendMoney, spendMaterials } = get().resources;
+    const { clearUI } = get().ui;
+    const { spendMoney, editMaterials } = get().resources;
+
+    // Agregamos materiales extraidos
+    if (terrainObject.effects) {
+      editMaterials([terrainObject.effects], true);
+    }
+
+    deleteObject(x, y);
+    spendMoney(terrainObject.cost);
+    clearUI();
   },
 
   // Construccion de carretera
   buildRoad: (currentPath) => {
     const { placeRoad } = get().grid;
     const { buildData, cancelState } = get().modeState;
-    const { spendMoney, spendMaterials } = get().resources;
+    const { spendMoney, editMaterials } = get().resources;
 
     // Pasamos la lista de materiales multiplicada por la longitud del path
     const scaledMaterials = Object.fromEntries(
@@ -75,7 +84,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     );
 
     spendMoney(buildData!.cost * currentPath.length);
-    spendMaterials([scaledMaterials]);
+    editMaterials([scaledMaterials], false);
     placeRoad(currentPath, buildData!);
     cancelState();
   },

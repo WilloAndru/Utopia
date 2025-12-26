@@ -7,7 +7,10 @@ export type Resources = {
   piedra: number;
   spendMoney: (amount: number) => void;
   increasePopulation: (amount: number) => void;
-  spendMaterials: (materilas: Partial<Record<ResourceType, number>>[]) => void;
+  editMaterials: (
+    materilas: Partial<Record<ResourceType, number>>[],
+    isPlus: Boolean
+  ) => void;
 };
 
 export const createResources = (set: any): Resources => ({
@@ -35,13 +38,14 @@ export const createResources = (set: any): Resources => ({
     })),
 
   // Funcion para gastar materiales
-  spendMaterials: (materials) =>
+  editMaterials: (materials, isPlus) =>
     set((state: any) => {
       const resources = { ...state.resources };
+      const factor = isPlus ? 1 : -1;
 
       materials.forEach((material) => {
         Object.entries(material).forEach(([key, value]) => {
-          resources[key as ResourceType] -= value!;
+          resources[key as ResourceType] += factor * value;
         });
       });
 
