@@ -1,7 +1,6 @@
 import { IoCloseSharp } from "react-icons/io5";
 import Building from "./components/Building";
 import Store from "./components/Store";
-import Population from "./components/Population";
 import { useState } from "preact/hooks";
 import { useGameStore } from "../../game/gameStore";
 
@@ -9,7 +8,6 @@ import { useGameStore } from "../../game/gameStore";
 const SECTIONS = {
   Construcción: Building,
   Almacen: Store,
-  Poblacion: Population,
 } as const;
 type SectionKey = keyof typeof SECTIONS;
 

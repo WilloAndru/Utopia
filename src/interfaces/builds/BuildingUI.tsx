@@ -9,8 +9,9 @@ type ResourceProps = {
 export default function BuildingUI({ name, cellSize }: ResourceProps) {
   // Obtenemos los datos del objeto
   const build = Object.values(BUILDINGS).find((item) => item.name === name);
-  const { hoverCell } = useGameStore((s) => s.modeState);
+  const { hoverCell, startEdit } = useGameStore((s) => s.modeState);
   const { deleteBuilding } = useGameStore((s) => s);
+  const { clearUI } = useGameStore((s) => s.ui);
 
   // Manejo de error
   if (!build) return null;
@@ -30,11 +31,21 @@ export default function BuildingUI({ name, cellSize }: ResourceProps) {
           {Object.entries(build.effects).map(([objName, quantity]) => (
             <li className="flex  gap-2" key={objName}>
               <img className="h-5" src={`/${objName}.png`} alt={objName} />
-              <h6>- {quantity}</h6>
+              <h6>{quantity}</h6>
             </li>
           ))}
         </ul>
       )}
+      {/* Boton para mover */}
+      <button
+        onClick={() => {
+          startEdit(hoverCell!.x, hoverCell!.y, build);
+          clearUI();
+        }}
+        className="btn-2 flex items-center gap-1 w-full justify-center"
+      >
+        Mover
+      </button>
       {/* Boton para demoler */}
       <button
         onClick={() => deleteBuilding(hoverCell!.x, hoverCell!.y, build)}

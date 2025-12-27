@@ -13,8 +13,9 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
   const { hoverCell, startRoadBuild } = useGameStore((s) => s.modeState);
   const [isSpaceFree, setIsSpaceFree] = useState(false);
 
-  // Si no estamos en modo de construccion, no se muestra el fantasma
-  if (mode !== "build" || !hoverCell || !buildData) return null;
+  // Si no estamos en modo de construccion o edicion, no se muestra el fantasma
+  if ((mode !== "build" && mode !== "edit") || !hoverCell || !buildData)
+    return null;
 
   // Posicion para cuadrar dentro del grid, estructuras con dos o mas celdas de size
   const clampedX = Math.min(hoverCell.x, grid.length - buildData.size);
@@ -27,11 +28,12 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
   }, [hoverCell]);
 
   // Cuando le damos click al fantasma
-  const handleBuildStart = () => {
-    if (buildData.id === 1) {
-      startRoadBuild(buildData);
+  const handleClick = () => {
+    if (mode === "build") {
+      buildData.name === "Camino"
+        ? startRoadBuild(buildData)
+        : buildStructure(clampedX, clampedY, buildData);
     } else {
-      buildStructure(clampedX, clampedY, buildData);
     }
   };
 
@@ -46,7 +48,7 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
         width: `${buildData.size * cellSize}px`,
         height: `${buildData.size * cellSize}px`,
       }}
-      onClick={() => isSpaceFree && handleBuildStart()}
+      onClick={() => isSpaceFree && handleClick()}
     />
   );
 }

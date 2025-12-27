@@ -13,7 +13,7 @@ export default function Grid({ cellSize }: GridProps) {
   const { previewPath, setPreviewPath, setRoadPath } = useGameStore(
     (s) => s.modeState
   );
-  const { isAvailable } = useGameStore((s) => s.modeState);
+  const { isAvailable, posEdit } = useGameStore((s) => s.modeState);
 
   // Que pasa cuando se pasa el mouse sobre las celdas en modos no idle
   const handleHover = (x: number, y: number) => {
@@ -26,6 +26,10 @@ export default function Grid({ cellSize }: GridProps) {
       const path = calculatePath(hoverCell, { x, y });
       setPreviewPath(path);
     }
+    // Si esta en modo edicion
+    else if (mode === "edit") {
+      setHoverCell(x, y);
+    }
   };
 
   return (
@@ -35,8 +39,8 @@ export default function Grid({ cellSize }: GridProps) {
     >
       {grid.map((row, x) =>
         row.map((cell, y) => {
-          // Validamos si la celda tiene borde
-          const borderClasses = getBuildingBorder(grid, x, y);
+          const borderClasses = getBuildingBorder(grid, x, y); // Validamos si la celda tiene borde
+          const isEditCell = posEdit?.x === x && posEdit?.y === y; // Validamos si la celda esta en modo edicion
 
           return (
             <div
@@ -48,6 +52,11 @@ export default function Grid({ cellSize }: GridProps) {
               style={{
                 width: cellSize,
                 height: cellSize,
+                // Si estamos en modo edicion, ocultamos visualmente la celda a mover
+                ...(isEditCell && {
+                  backgroundColor: "#22c55e",
+                  border: "none",
+                }),
               }}
               onMouseEnter={() => handleHover(x, y)}
               onClick={() => {

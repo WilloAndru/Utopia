@@ -18,4 +18,4 @@ export type CellModel = {
   building: BuildingModel | null;
 };
 
-export type GameMode = "idle" | "build" | "buildRoad";
+export type GameMode = "idle" | "build" | "buildRoad" | "edit";

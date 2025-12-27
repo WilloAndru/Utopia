@@ -19,6 +19,10 @@ export type ModeState = {
 
   startBuild: (building: BuildingData) => void;
   startRoadBuild: (building: BuildingData) => void;
+
+  posEdit: { x: number; y: number } | null;
+  startEdit: (x: number, y: number, building: BuildingData) => void;
+
   cancelState: () => void;
 };
 
@@ -76,7 +80,7 @@ export const createModeState = (set: any, get: any): ModeState => ({
   },
 
   // Estado de constuccion
-  startBuild: (building: BuildingData) => {
+  startBuild: (building) => {
     set((state: any) => ({
       modeState: {
         ...state.modeState,
@@ -87,11 +91,24 @@ export const createModeState = (set: any, get: any): ModeState => ({
   },
 
   // Estado de construccion de camino
-  startRoadBuild: (building: BuildingData) => {
+  startRoadBuild: (building) => {
     set((state: any) => ({
       modeState: {
         ...state.modeState,
         mode: "buildRoad",
+        buildData: building,
+      },
+    }));
+  },
+
+  posEdit: null,
+  // Estado de edicion
+  startEdit: (x, y, building) => {
+    set((state: any) => ({
+      modeState: {
+        ...state.modeState,
+        posEdit: { x, y },
+        mode: "edit",
         buildData: building,
       },
     }));
@@ -108,6 +125,7 @@ export const createModeState = (set: any, get: any): ModeState => ({
         previewPath: null,
         roadPath: [],
         isAvailable: true,
+        posEdit: null,
       },
     }));
   },
