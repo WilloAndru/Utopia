@@ -48,7 +48,6 @@ export const createUI = (set: any, get: any): UIState => ({
         ...state.ui,
         idOpenUI: null,
         nameUI: null,
-        message: null,
       },
     })),
 });

@@ -26,7 +26,7 @@ export type GameState = {
   moveStructure: () => void;
 };
 
-let timeInterval: ReturnType<typeof setInterval> | null = null; // Importante, para que nunca se reinicie
+let timeInterval: ReturnType<typeof setInterval> | null = null; // Para que nunca se reinicie el tiempo
 
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
@@ -39,11 +39,14 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   // Contador de meses
   startTime: () => {
+    const { setMessage } = get().ui;
+
     if (timeInterval) return;
 
     timeInterval = setInterval(() => {
       const { poblacion, editMoney } = get().resources;
       editMoney(poblacion, true);
+      setMessage(`Has obtenido ${poblacion} de monedas`);
 
       set((state) => ({
         month: state.month + 1,
@@ -66,6 +69,8 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Si de efecto aumenta la poblacion aumentamos la poblacion
     if (building.effects?.poblacion) {
       increasePopulation(building.effects.poblacion);
+      const { setMessage } = get().ui;
+      setMessage(`Has aumentado la poblacion en ${building.effects.poblacion}`);
     }
     editMoney(building.cost, false);
     editMaterials([building.requiredResources], true);
@@ -97,6 +102,12 @@ export const useGameStore = create<GameState>((set, get) => ({
     // Agregamos materiales extraidos
     if (terrainObject.effects) {
       editMaterials([terrainObject.effects], true);
+      const { setMessage } = get().ui;
+      const effectsText = Object.entries(terrainObject.effects)
+        .map(([resource, amount]) => `${amount} de ${resource}`)
+        .join(", ");
+
+      setMessage(`Has obtenido ${effectsText}`);
     }
 
     deleteObject(x, y);
@@ -129,7 +140,15 @@ export const useGameStore = create<GameState>((set, get) => ({
     const { placeStructure, deleteObject } = get().grid;
     const { posEdit, hoverCell, buildData, cancelState } = get().modeState;
 
-    placeStructure(hoverCell!.x, hoverCell!.y, buildData!);
+    let newBuilding = buildData!;
+    if (buildData?.name !== "Camino") {
+      newBuilding = {
+        ...buildData!,
+        id: get().buildings.increment(buildData!.id),
+      };
+    }
+
+    placeStructure(hoverCell!.x, hoverCell!.y, newBuilding);
     deleteObject(posEdit!.x, posEdit!.y);
     cancelState();
   },
