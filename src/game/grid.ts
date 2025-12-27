@@ -82,7 +82,7 @@ export const createGrid = (set: any, get: any): Grid => ({
   })(),
 
   // Modificamos la grilla con la info de la nueva estructura
-  placeStructure: (startX, startY, building) =>
+  placeStructure: (startX, startY, building) => {
     set((state: any) => {
       const newGrid = state.grid.grid.map((row: CellModel[]) =>
         row.map((cell) => ({ ...cell }))
@@ -100,7 +100,8 @@ export const createGrid = (set: any, get: any): Grid => ({
           grid: newGrid,
         },
       };
-    }),
+    });
+  },
 
   // Modificamos la grilla con la info del nuevo camino
   placeRoad: (path, building) =>

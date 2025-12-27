@@ -23,6 +23,7 @@ export type GameState = {
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
   deleteBuilding: (x: number, y: number, building: BuildingModel) => void;
   buildRoad: (path: { x: number; y: number }[]) => void;
+  moveStructure: () => void;
 };
 
 let timeInterval: ReturnType<typeof setInterval> | null = null; // Importante, para que nunca se reinicie
@@ -120,6 +121,16 @@ export const useGameStore = create<GameState>((set, get) => ({
     editMoney(buildData!.cost * currentPath.length, false);
     editMaterials([scaledMaterials], false);
     placeRoad(currentPath, buildData!);
+    cancelState();
+  },
+
+  // Confirmamos mover la estructura
+  moveStructure: () => {
+    const { placeStructure, deleteObject } = get().grid;
+    const { posEdit, hoverCell, buildData, cancelState } = get().modeState;
+
+    placeStructure(hoverCell!.x, hoverCell!.y, buildData!);
+    deleteObject(posEdit!.x, posEdit!.y);
     cancelState();
   },
 }));

@@ -7,7 +7,7 @@ type GhostOverlayProps = {
 };
 
 export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
-  const { buildStructure } = useGameStore((s) => s);
+  const { buildStructure, moveStructure } = useGameStore((s) => s);
   const { grid } = useGameStore((s) => s.grid);
   const { mode, buildData } = useGameStore((s) => s.modeState);
   const { hoverCell, startRoadBuild } = useGameStore((s) => s.modeState);
@@ -34,6 +34,7 @@ export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
         ? startRoadBuild(buildData)
         : buildStructure(clampedX, clampedY, buildData);
     } else {
+      moveStructure();
     }
   };
 
