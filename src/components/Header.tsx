@@ -3,6 +3,7 @@ import { useGameStore } from "../game/gameStore";
 import { LuMenu } from "react-icons/lu";
 
 export default function Header() {
+  const { month } = useGameStore((s) => s);
   const { openUI } = useGameStore((s) => s.ui);
   const { money, poblacion } = useGameStore((s) => s.resources);
   const castleData = BUILDINGS.castle;
@@ -15,13 +16,17 @@ export default function Header() {
         <h4>Utopia</h4>
       </div>
       {/* Seccion derecha */}
-      <div className="flex gap-2">
+      <div className="flex gap-4 items-center">
+        {/* Conteo de meses */}
+        <span className="font-bold tracking-wider px-4 py-2 border-4 border-emerald-500 rounded-xl">
+          Mes {month}
+        </span>
         {/* Monedero */}
         <div className="px-4 py-2 border-4 border-emerald-500 rounded-xl flex gap-2">
           <img className="w-6" src="/moneda.png" alt="moneda" />
           <h6>{money}</h6>
         </div>
-        {/* poblacion */}
+        {/* Poblacion */}
         <div className="px-4 py-2 border-4 border-emerald-500 rounded-xl flex gap-2">
           <img className="w-6" src="/poblacion.png" alt="poblacion" />
           <h6>{poblacion}</h6>

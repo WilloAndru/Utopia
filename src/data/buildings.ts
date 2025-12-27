@@ -54,7 +54,7 @@ export const BUILDINGS: Record<string, BuildingData> = {
       piedra: 1,
     },
     effects: {
-      poblacion: 5,
+      poblacion: 1,
     },
   },
 };

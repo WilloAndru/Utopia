@@ -8,12 +8,13 @@ import type { BuildingModel } from "./models";
 import type { TerrainObjectData } from "../data/terrainObject";
 
 export type GameState = {
+  month: number;
   resources: Resources;
   grid: Grid;
   modeState: ModeState;
   ui: UIState;
-
   buildings: BuildingsState;
+  startTime: () => void;
   deleteTerrainObject: (
     x: number,
     y: number,
@@ -23,19 +24,36 @@ export type GameState = {
   buildRoad: (path: { x: number; y: number }[]) => void;
 };
 
+let timeInterval: ReturnType<typeof setInterval> | null = null; // Importante, para que nunca se reinicie
+
 // Crea el estado global del juego
 export const useGameStore = create<GameState>((set, get) => ({
+  month: 1,
   resources: createResources(set),
   grid: createGrid(set, get),
   modeState: createModeState(set, get),
   buildings: createBuildings(set, get),
   ui: createUI(set, get),
 
+  // Contador de meses
+  startTime: () => {
+    if (timeInterval) return;
+
+    timeInterval = setInterval(() => {
+      const { poblacion, editMoney } = get().resources;
+      editMoney(poblacion, true);
+
+      set((state) => ({
+        month: state.month + 1,
+      }));
+    }, 30000);
+  },
+
   // Construccion de edificio
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
     const { cancelState } = get().modeState;
-    const { spendMoney, editMaterials, increasePopulation } = get().resources;
+    const { editMoney, editMaterials, increasePopulation } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
     const newBuilding = {
@@ -47,7 +65,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     if (building.effects?.poblacion) {
       increasePopulation(building.effects.poblacion);
     }
-    spendMoney(building.cost);
+    editMoney(building.cost, false);
     editMaterials([building.requiredResources], true);
     placeStructure(x, y, newBuilding);
     cancelState();
@@ -57,7 +75,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   deleteTerrainObject: (x, y, terrainObject) => {
     const { deleteObject } = get().grid;
     const { clearUI } = get().ui;
-    const { spendMoney, editMaterials } = get().resources;
+    const { editMoney, editMaterials } = get().resources;
 
     // Agregamos materiales extraidos
     if (terrainObject.effects) {
@@ -65,7 +83,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     }
 
     deleteObject(x, y);
-    spendMoney(terrainObject.cost);
+    editMoney(terrainObject.cost, false);
     clearUI();
   },
 
@@ -73,7 +91,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   buildRoad: (currentPath) => {
     const { placeRoad } = get().grid;
     const { buildData, cancelState } = get().modeState;
-    const { spendMoney, editMaterials } = get().resources;
+    const { editMoney, editMaterials } = get().resources;
 
     // Pasamos la lista de materiales multiplicada por la longitud del path
     const scaledMaterials = Object.fromEntries(
@@ -83,7 +101,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       ])
     );
 
-    spendMoney(buildData!.cost * currentPath.length);
+    editMoney(buildData!.cost * currentPath.length, false);
     editMaterials([scaledMaterials], false);
     placeRoad(currentPath, buildData!);
     cancelState();
