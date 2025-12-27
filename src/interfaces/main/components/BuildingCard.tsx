@@ -85,19 +85,26 @@ export default function BuildingCard({ build }: BuildingCardProps) {
       ) : (
         //Tarjeta que muestra la info detallada
         <div className="flex flex-col gap-2 items-center text-[0.8rem]">
-          {/* Tamaño del edificio */}
-          <h6>
-            Tamaño: {build.size}x{build.size}
-          </h6>
           {/* Materiales necesarios para construir */}
           <div className="flex gap-3">
             {Object.entries(build.requiredResources).map(([key, value]) => (
               <div className="flex gap-1">
                 <img className="w-4" src={`/${key}.png`} alt={key} />
-                <h6 className="">{value}</h6>
+                <h6>- {value}</h6>
               </div>
             ))}
           </div>
+          {/* Efectos que aplica */}
+          {build.effects && (
+            <div className="flex gap-3">
+              {Object.entries(build.effects).map(([key, value]) => (
+                <div className="flex gap-1">
+                  <img className="h-4" src={`/${key}.png`} alt={key} />
+                  <h6>+ {value}</h6>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
       {/* Boton para ver detalles */}

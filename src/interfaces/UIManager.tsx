@@ -1,7 +1,8 @@
 import { useRef, useEffect } from "preact/hooks";
 import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
-import ResourceUI from "./resources/ResourceUI";
+import ResourceUI from "./builds/ResourceUI";
+import BuildingUI from "./builds/BuildingUI";
 
 type UIManagerProps = {
   cellSize: number;
@@ -42,6 +43,10 @@ export default function UIManager({ cellSize }: UIManagerProps) {
     case "Arbol":
     case "Roca":
       content = <ResourceUI name={nameUI} cellSize={cellSize} />;
+      break;
+    case "Camino":
+    case "Casa":
+      content = <BuildingUI name={nameUI} cellSize={cellSize} />;
       break;
   }
 

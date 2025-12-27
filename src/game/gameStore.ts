@@ -21,6 +21,7 @@ export type GameState = {
     object: TerrainObjectData
   ) => void;
   buildStructure: (x: number, y: number, building: BuildingModel) => void;
+  deleteBuilding: (x: number, y: number, building: BuildingModel) => void;
   buildRoad: (path: { x: number; y: number }[]) => void;
 };
 
@@ -69,6 +70,21 @@ export const useGameStore = create<GameState>((set, get) => ({
     editMaterials([building.requiredResources], true);
     placeStructure(x, y, newBuilding);
     cancelState();
+  },
+
+  // Eliminacion de estructura
+  deleteBuilding: (x, y, building) => {
+    const { deleteObject } = get().grid;
+    const { clearUI } = get().ui;
+    const { editMaterials } = get().resources;
+
+    // Eliminamos efectos que otorga
+    if (building.effects) {
+      editMaterials([building.effects], false);
+    }
+
+    deleteObject(x, y);
+    clearUI();
   },
 
   // Eliminacion de obstaculo del terreno
