@@ -20,9 +20,9 @@ export default function MainMenu() {
   const { clearUI } = useGameStore((s) => s.ui); // Funcion para cerrar interfaz
 
   return (
-    <aside className="flex flex-col gap-2 px-4 py-2 rounded-xl bg-emerald-300 w-190 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-emerald-500">
+    <aside className="ui">
       {/* Titulo */}
-      <header className="flex w-full justify-between">
+      <header>
         <h4>Menu principal</h4>
         <button className="btn-1 -mr-2" onClick={() => clearUI()}>
           <IoCloseSharp />

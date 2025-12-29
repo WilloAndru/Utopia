@@ -1,9 +1,11 @@
 import { BUILDINGS } from "../data/buildings";
 import { useGameStore } from "../game/gameStore";
 import { LuMenu } from "react-icons/lu";
+import { FaSave } from "react-icons/fa";
+import { FaDownload } from "react-icons/fa6";
 
 export default function Header() {
-  const { month, saveGame, loadGame } = useGameStore();
+  const { month } = useGameStore();
   const { openUI } = useGameStore((s) => s.ui);
   const { money, poblacion } = useGameStore((s) => s.resources);
   const castleData = BUILDINGS.castle;
@@ -17,12 +19,6 @@ export default function Header() {
       </div>
       {/* Seccion derecha */}
       <div className="flex gap-4 items-center">
-        <button className="btn-1" onClick={saveGame}>
-          Save
-        </button>
-        <button className="btn-1" onClick={loadGame}>
-          Load
-        </button>
         {/* Conteo de meses */}
         <span className="font-bold tracking-wider px-4 py-2 border-4 border-emerald-500 rounded-xl">
           Mes {month}
@@ -37,6 +33,14 @@ export default function Header() {
           <img className="w-6" src="/poblacion.png" alt="poblacion" />
           <h6>{poblacion}</h6>
         </div>
+        {/* Guardar partida */}
+        <button className="btn-1" onClick={() => openUI(0, "Save")}>
+          <FaSave />
+        </button>
+        {/* Cargar partida */}
+        <button className="btn-1" onClick={() => openUI(0, "Load")}>
+          <FaDownload />
+        </button>
         {/* Boton de menu */}
         <button
           className="btn-1"

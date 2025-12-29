@@ -16,8 +16,8 @@ export type GameState = {
   buildings: BuildingsState;
 
   startTime: () => void;
-  saveGame: () => void;
-  loadGame: () => void;
+  saveGame: (slot: number) => void;
+  loadGame: (slot: number) => void;
 
   deleteTerrainObject: (
     x: number,
@@ -42,8 +42,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   ui: createUI(set, get),
 
   // Guardamos el progreso
-  saveGame: () => {
+  saveGame: (slot) => {
     const state = get();
+
     const serializableState = {
       month: state.month,
       resources: {
@@ -58,19 +59,24 @@ export const useGameStore = create<GameState>((set, get) => ({
       buildings: {
         counts: state.buildings.counts,
       },
+      savedAt: Date.now(),
     };
-    localStorage.setItem("gameState", JSON.stringify(serializableState));
+
+    localStorage.setItem(
+      `gameState_${slot}`,
+      JSON.stringify(serializableState)
+    );
   },
 
   // Cargamos progreso
-  loadGame: () => {
-    const saved = localStorage.getItem("gameState");
+  loadGame: (slot) => {
+    const saved = localStorage.getItem(`gameState_${slot}`);
     if (!saved) return;
 
     const parsed = JSON.parse(saved);
 
     set((state) => ({
-      month: parsed.month ?? state.month,
+      month: parsed.month,
       resources: {
         ...state.resources, // conserva funciones
         money: parsed.resources.money,

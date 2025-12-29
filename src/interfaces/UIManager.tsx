@@ -3,6 +3,8 @@ import { useGameStore } from "../game/gameStore";
 import MainMenu from "./main/MainMenu";
 import ResourceUI from "./builds/ResourceUI";
 import BuildingUI from "./builds/BuildingUI";
+import SaveUI from "./others/SaveUI";
+import LoadUI from "./others/LoadUI";
 
 type UIManagerProps = {
   cellSize: number;
@@ -47,6 +49,12 @@ export default function UIManager({ cellSize }: UIManagerProps) {
     case "Camino":
     case "Casa":
       content = <BuildingUI name={nameUI} cellSize={cellSize} />;
+      break;
+    case "Save":
+      content = <SaveUI />;
+      break;
+    case "Load":
+      content = <LoadUI />;
       break;
   }
 
