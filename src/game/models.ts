@@ -1,5 +1,6 @@
 import type { BuildingEffect } from "../data/buildings";
 import type { ResourceType } from "../data/buildings";
+import type { TerrainObjectData } from "../data/terrainObject";
 
 export type BuildingModel = {
   id: number;
@@ -15,7 +16,7 @@ export type BuildingModel = {
 };
 
 export type CellModel = {
-  building: BuildingModel | null;
+  building: BuildingModel | TerrainObjectData | null;
 };
 
 export type GameMode = "idle" | "build" | "buildRoad" | "edit";

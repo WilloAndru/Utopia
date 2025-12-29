@@ -9,11 +9,11 @@ type GridProps = {
 export default function Grid({ cellSize }: GridProps) {
   const { grid } = useGameStore((s) => s.grid);
   const { openUI, setMessage } = useGameStore((s) => s.ui);
-  const { mode, hoverCell, setHoverCell } = useGameStore((s) => s.modeState);
+  const { mode, hoverCell, setHoverCell } = useGameStore((s) => s.mode);
   const { previewPath, setPreviewPath, setRoadPath } = useGameStore(
-    (s) => s.modeState
+    (s) => s.mode
   );
-  const { isAvailable, posEdit } = useGameStore((s) => s.modeState);
+  const { isAvailable, posEdit } = useGameStore((s) => s.mode);
 
   // Que pasa cuando se pasa el mouse sobre las celdas en modos no idle
   const handleHover = (x: number, y: number) => {

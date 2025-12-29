@@ -11,10 +11,10 @@ type RoadGhostOverlayProps = {
 };
 
 export default function RoadGhostOverlay({ cellSize }: RoadGhostOverlayProps) {
-  const { mode, buildData } = useGameStore((s) => s.modeState);
-  const { isAvailable, setIsAvailable } = useGameStore((s) => s.modeState);
-  const { previewPath, roadPath } = useGameStore((s) => s.modeState);
-  const { buildRoad } = useGameStore((s) => s);
+  const { mode, buildData } = useGameStore((s) => s.mode);
+  const { isAvailable, setIsAvailable } = useGameStore((s) => s.mode);
+  const { previewPath, roadPath } = useGameStore((s) => s.mode);
+  const { buildRoad } = useGameStore();
   const { grid } = useGameStore((s) => s.grid);
   const { money, piedra } = useGameStore((s) => s.resources);
   const { setMessage } = useGameStore((s) => s.ui);

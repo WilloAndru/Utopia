@@ -8,7 +8,7 @@ type BuildingCardProps = {
 
 export default function BuildingCard({ build }: BuildingCardProps) {
   const { setMessage, clearUI } = useGameStore((s) => s.ui);
-  const { startBuild } = useGameStore((s) => s.modeState);
+  const { startBuild } = useGameStore((s) => s.mode);
   const resources = useGameStore((s) => s.resources);
   const [isSeeMore, setIsSeeMore] = useState(false);
 

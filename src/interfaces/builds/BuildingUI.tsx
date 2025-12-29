@@ -9,8 +9,8 @@ type ResourceProps = {
 export default function BuildingUI({ name, cellSize }: ResourceProps) {
   // Obtenemos los datos del objeto
   const build = Object.values(BUILDINGS).find((item) => item.name === name);
-  const { hoverCell, startEdit } = useGameStore((s) => s.modeState);
-  const { deleteBuilding } = useGameStore((s) => s);
+  const { hoverCell, startEdit } = useGameStore((s) => s.mode);
+  const { deleteBuilding } = useGameStore();
   const { clearUI } = useGameStore((s) => s.ui);
 
   // Manejo de error

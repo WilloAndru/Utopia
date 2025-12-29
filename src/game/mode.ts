@@ -1,7 +1,7 @@
 import type { BuildingData } from "../data/buildings";
 import type { GameMode } from "./models";
 
-export type ModeState = {
+export type mode = {
   mode: GameMode;
   buildData: BuildingData | null;
 
@@ -26,7 +26,7 @@ export type ModeState = {
   cancelState: () => void;
 };
 
-export const createModeState = (set: any, get: any): ModeState => ({
+export const createmode = (set: any, get: any): mode => ({
   mode: "idle",
   buildData: null,
 
@@ -34,10 +34,10 @@ export const createModeState = (set: any, get: any): ModeState => ({
   isAvailable: { value: true },
   setIsAvailable: (available) =>
     set((state: any) => {
-      if (state.modeState.isAvailable === available) return state;
+      if (state.mode.isAvailable === available) return state;
       return {
-        modeState: {
-          ...state.modeState,
+        mode: {
+          ...state.mode,
           isAvailable: {
             message: available.message,
             value: available.value,
@@ -50,8 +50,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   hoverCell: null,
   setHoverCell: (x, y) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         hoverCell: { x, y },
       },
     }));
@@ -61,8 +61,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   previewPath: null,
   setPreviewPath: (path) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         previewPath: path,
       },
     }));
@@ -72,9 +72,9 @@ export const createModeState = (set: any, get: any): ModeState => ({
   roadPath: [],
   setRoadPath: (path) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
-        roadPath: [...state.modeState.roadPath, ...path],
+      mode: {
+        ...state.mode,
+        roadPath: [...state.mode.roadPath, ...path],
       },
     }));
   },
@@ -82,8 +82,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   // Estado de constuccion
   startBuild: (building) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         mode: "build",
         buildData: building,
       },
@@ -93,8 +93,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   // Estado de construccion de camino
   startRoadBuild: (building) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         mode: "buildRoad",
         buildData: building,
       },
@@ -105,8 +105,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   // Estado de edicion
   startEdit: (x, y, building) => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         posEdit: { x, y },
         mode: "edit",
         buildData: building,
@@ -117,8 +117,8 @@ export const createModeState = (set: any, get: any): ModeState => ({
   // Cancelamos cualquier estado
   cancelState: () => {
     set((state: any) => ({
-      modeState: {
-        ...state.modeState,
+      mode: {
+        ...state.mode,
         mode: "idle",
         buildData: null,
         hoverCell: null,

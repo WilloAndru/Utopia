@@ -3,7 +3,7 @@ import { useGameStore } from "../game/gameStore";
 import { LuMenu } from "react-icons/lu";
 
 export default function Header() {
-  const { month } = useGameStore((s) => s);
+  const { month, saveGame, loadGame } = useGameStore();
   const { openUI } = useGameStore((s) => s.ui);
   const { money, poblacion } = useGameStore((s) => s.resources);
   const castleData = BUILDINGS.castle;
@@ -17,6 +17,12 @@ export default function Header() {
       </div>
       {/* Seccion derecha */}
       <div className="flex gap-4 items-center">
+        <button className="btn-1" onClick={saveGame}>
+          Save
+        </button>
+        <button className="btn-1" onClick={loadGame}>
+          Load
+        </button>
         {/* Conteo de meses */}
         <span className="font-bold tracking-wider px-4 py-2 border-4 border-emerald-500 rounded-xl">
           Mes {month}

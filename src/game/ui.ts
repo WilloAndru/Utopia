@@ -24,11 +24,11 @@ export const createUI = (set: any, get: any): UIState => ({
 
   // Abre o cierra la interfaz según el edificio clickeado
   openUI: (id, name) => {
-    const { modeState } = get();
+    const { mode } = get();
 
     // Si hay un estado activo distinto de idle, lo cancelamos
-    if (modeState.mode !== "idle") {
-      modeState.moneda();
+    if (mode.mode !== "idle") {
+      mode.moneda();
     }
 
     // Si es otro edificio → abrir su interfaz

@@ -7,10 +7,10 @@ type GhostOverlayProps = {
 };
 
 export default function GhostOverlay({ cellSize }: GhostOverlayProps) {
-  const { buildStructure, moveStructure } = useGameStore((s) => s);
+  const { buildStructure, moveStructure } = useGameStore();
   const { grid } = useGameStore((s) => s.grid);
-  const { mode, buildData } = useGameStore((s) => s.modeState);
-  const { hoverCell, startRoadBuild } = useGameStore((s) => s.modeState);
+  const { mode, buildData } = useGameStore((s) => s.mode);
+  const { hoverCell, startRoadBuild } = useGameStore((s) => s.mode);
   const [isSpaceFree, setIsSpaceFree] = useState(false);
 
   // Si no estamos en modo de construccion o edicion, no se muestra el fantasma

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { createGrid, type Grid } from "./grid";
-import { createModeState, type ModeState } from "./mode";
+import { createmode, type mode } from "./mode";
 import { createResources, type Resources } from "./resources";
 import { createBuildings, type BuildingsState } from "./buildings";
 import { createUI, type UIState } from "./ui";
@@ -11,10 +11,14 @@ export type GameState = {
   month: number;
   resources: Resources;
   grid: Grid;
-  modeState: ModeState;
+  mode: mode;
   ui: UIState;
   buildings: BuildingsState;
+
   startTime: () => void;
+  saveGame: () => void;
+  loadGame: () => void;
+
   deleteTerrainObject: (
     x: number,
     y: number,
@@ -33,9 +37,57 @@ export const useGameStore = create<GameState>((set, get) => ({
   month: 1,
   resources: createResources(set),
   grid: createGrid(set, get),
-  modeState: createModeState(set, get),
+  mode: createmode(set, get),
   buildings: createBuildings(set, get),
   ui: createUI(set, get),
+
+  // Guardamos el progreso
+  saveGame: () => {
+    const state = get();
+    const serializableState = {
+      month: state.month,
+      resources: {
+        money: state.resources.money,
+        poblacion: state.resources.poblacion,
+        madera: state.resources.madera,
+        piedra: state.resources.piedra,
+      },
+      grid: {
+        grid: state.grid.grid,
+      },
+      buildings: {
+        counts: state.buildings.counts,
+      },
+    };
+    localStorage.setItem("gameState", JSON.stringify(serializableState));
+  },
+
+  // Cargamos progreso
+  loadGame: () => {
+    const saved = localStorage.getItem("gameState");
+    if (!saved) return;
+
+    const parsed = JSON.parse(saved);
+
+    set((state) => ({
+      month: parsed.month ?? state.month,
+      resources: {
+        ...state.resources, // conserva funciones
+        money: parsed.resources.money,
+        poblacion: parsed.resources.poblacion,
+        madera: parsed.resources.madera,
+        piedra: parsed.resources.piedra,
+      },
+      grid: {
+        ...state.grid,
+        grid: parsed.grid.grid,
+      },
+      buildings: {
+        ...state.buildings,
+        counts: parsed.buildings.counts,
+      },
+    }));
+  },
 
   // Contador de meses
   startTime: () => {
@@ -57,7 +109,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Construccion de edificio
   buildStructure: (x, y, building) => {
     const { placeStructure } = get().grid;
-    const { cancelState } = get().modeState;
+    const { cancelState } = get().mode;
     const { editMoney, editMaterials, increasePopulation } = get().resources;
 
     // Aplicamos el incremento de id, para identificar estructuras por separado
@@ -72,8 +124,9 @@ export const useGameStore = create<GameState>((set, get) => ({
       const { setMessage } = get().ui;
       setMessage(`Has aumentado la poblacion en ${building.effects.poblacion}`);
     }
+
     editMoney(building.cost, false);
-    editMaterials([building.requiredResources], true);
+    editMaterials([building.requiredResources], false);
     placeStructure(x, y, newBuilding);
     cancelState();
   },
@@ -118,7 +171,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Construccion de carretera
   buildRoad: (currentPath) => {
     const { placeRoad } = get().grid;
-    const { buildData, cancelState } = get().modeState;
+    const { buildData, cancelState } = get().mode;
     const { editMoney, editMaterials } = get().resources;
 
     // Pasamos la lista de materiales multiplicada por la longitud del path
@@ -138,7 +191,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   // Confirmamos mover la estructura
   moveStructure: () => {
     const { placeStructure, deleteObject } = get().grid;
-    const { posEdit, hoverCell, buildData, cancelState } = get().modeState;
+    const { posEdit, hoverCell, buildData, cancelState } = get().mode;
 
     let newBuilding = buildData!;
     if (buildData?.name !== "Camino") {

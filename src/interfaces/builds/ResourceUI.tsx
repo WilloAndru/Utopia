@@ -11,11 +11,22 @@ export default function ResourceUI({ name, cellSize }: ResourceProps) {
   const object = Object.values(TERRAINOBJECTS).find(
     (item) => item.name === name
   );
-  const { hoverCell } = useGameStore((s) => s.modeState);
-  const { deleteTerrainObject } = useGameStore((s) => s);
+  const { hoverCell } = useGameStore((s) => s.mode);
+  const { money } = useGameStore((s) => s.resources);
+  const { deleteTerrainObject } = useGameStore();
+  const { setMessage } = useGameStore((s) => s.ui);
 
   // Manejo de error
   if (!object) return null;
+
+  const isAvailable = money >= object.cost;
+
+  // Si hay dinero suficiente demolemos, si no mandamos msj
+  const handleDelete = () => {
+    isAvailable
+      ? deleteTerrainObject(hoverCell!.x, hoverCell!.y, object)
+      : setMessage("Monedas insuficientes");
+  };
 
   return (
     <main
@@ -36,10 +47,7 @@ export default function ResourceUI({ name, cellSize }: ResourceProps) {
         ))}
       </ul>
       {/* Boton para demoler */}
-      <button
-        onClick={() => deleteTerrainObject(hoverCell!.x, hoverCell!.y, object)}
-        className="btn-2 flex items-center gap-1"
-      >
+      <button onClick={handleDelete} className="btn-2 flex items-center gap-1">
         <span>Demoler por</span>
         <img className="w-4" src="/moneda.png" alt="Moneda" />
         <span>{object.cost}</span>

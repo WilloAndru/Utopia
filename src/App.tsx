@@ -10,9 +10,9 @@ import MessageBar from "./components/MessageBar";
 
 export function App() {
   const cellSize = 10;
-  const { startTime } = useGameStore((s) => s);
+  const { startTime } = useGameStore();
   const { clearUI } = useGameStore((s) => s.ui);
-  const { cancelState, startBuild } = useGameStore((s) => s.modeState);
+  const { cancelState, startBuild } = useGameStore((s) => s.mode);
 
   // Detecta cuando se usa Esc para cerrar interfaces o eventos
   useEffect(() => {
