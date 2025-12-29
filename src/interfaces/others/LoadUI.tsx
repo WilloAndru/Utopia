@@ -17,20 +17,41 @@ export default function LoadUI() {
         </button>
       </header>
       {/* Casilleros */}
-      <section className="bg-emerald-500 rounded-xl p-2 -mr-2 w-full h-81 grid grid-cols-3 auto-rows-[149px] gap-2 ">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <button
-            key={i}
-            className="btn-2"
-            onClick={() => {
-              loadGame(i);
-              clearUI();
-            }}
-          >
-            Casillero {1 + i}
-            {hasSave(i) && <span className="font-bold">Cargar</span>}
-          </button>
-        ))}
+      <section className="w-full h-81 grid grid-cols-3 auto-rows-[149px] gap-2 bg-transparent p-2">
+        {Array.from({ length: 6 }).map((_, i) => {
+          const dataGame = JSON.parse(
+            localStorage.getItem(`gameState_${i}`) || "null"
+          );
+          return (
+            <button
+              key={i}
+              className="btn-2"
+              onClick={() => {
+                loadGame(i);
+                clearUI();
+              }}
+            >
+              {/* Titulo */}
+              <p className="text-xl mb-1">
+                {hasSave(i) ? `Partida ${i + 1}` : "Vacio"}
+              </p>
+              {/* Datos de partida */}
+              {hasSave(i) && (
+                <div className="flex flex-col gap-1 text-[1rem] items-center">
+                  <span>Mes {dataGame.month}</span>
+                  <span className="flex gap-2">
+                    <img className="h-4" src="/moneda.png" alt="moneda" />
+                    {dataGame.resources.money}
+                  </span>
+                  <span className="flex gap-2">
+                    <img className="h-4" src="/poblacion.png" alt="poblacion" />
+                    {dataGame.resources.poblacion}
+                  </span>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </section>
     </main>
   );
